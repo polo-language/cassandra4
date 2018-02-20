@@ -5,6 +5,7 @@ PORTVERSION=	3.11.1
 CATEGORIES=	databases 
 MASTER_SITES=	https://github.com/apache/cassandra/archive/
 PKGNAMESUFFIX=	3
+WRKSRC=         ${WRKDIR}/cassandra-${PORTNAME}-${PORTVERSION}
 # DISTNAME=	apache-cassandra-${PORTVERSION}
 # EXTRACT_SUFX=	-bin.tar.gz
 # USE_GITHUB=     yes
@@ -12,7 +13,7 @@ PKGNAMESUFFIX=	3
 # DISTVERSIONPREFIX= cassandra
 # GH_TAGNAME=     cassandra-3.11.1
 
-MAINTAINER=	language.devel@gmail.com
+MAINTAINER=	polo.language@gmail.com
 COMMENT=	TODO: Open source distributed database management system
 
 LICENSE=	APACHE20
