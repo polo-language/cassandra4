@@ -23,6 +23,7 @@ JAVA_VENDOR=	openjdk
 # REINPLACE_ARGS=	-i ''
 USE_JAVA=	yes
 USE_ANT=        yes
+ALL_TARGET=     artifacts
 # USE_RC_SUBR=	cassandra  # TODO: Should be an 'install as daemon option'.
 
 .include <bsd.port.mk>
