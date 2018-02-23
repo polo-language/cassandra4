@@ -2,7 +2,7 @@
 
 PORTNAME=	cassandra
 PORTVERSION=	3.11.1
-CATEGORIES=	databases 
+CATEGORIES=	databases java
 MASTER_SITES=	https://github.com/apache/cassandra/archive/
 PKGNAMESUFFIX=	3
 WRKSRC=         ${WRKDIR}/cassandra-${PORTNAME}-${PORTVERSION}
@@ -14,8 +14,7 @@ WRKSRC=         ${WRKDIR}/cassandra-${PORTNAME}-${PORTVERSION}
 # GH_TAGNAME=     cassandra-3.11.1
 
 MAINTAINER=	polo.language@gmail.com
-COMMENT=	TODO: Open source distributed database management system
-
+COMMENT=	A highly scalable second-generation distributed database, bringing together Dynamo\'s fully distributed design and Bigtable\'s ColumnFamily-based data model.
 LICENSE=	APACHE20
 
 JAVA_VERSION=	1.8
@@ -23,7 +22,7 @@ JAVA_VENDOR=	openjdk
 # REINPLACE_ARGS=	-i ''
 USE_JAVA=	yes
 USE_ANT=        yes
-ALL_TARGET=     artifacts
+# ALL_TARGET=     artifacts
 
 OPTIONS_DEFINE= DOCS
 PYTHON_PKGNAMEPREFIX= py27-
@@ -34,11 +33,18 @@ DOCS_BUILD_DEPENDS=   ${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx@${FLAVO
 # USE_RC_SUBR=	cassandra  # TODO: Should be an 'install as daemon option'.
 
 do-build:
-	cd ${WRKSRC} && ${ANT} jar
+	cd ${WRKSRC} && ${ANT} freebsd-stage
+	chmod 755 ${WRKSRC}/build/dist/bin/*
+	chmod 644 ${WRKSRC}/build/dist/bin/*.in.sh
+	chmod 755 ${WRKSRC}/build/dist/tools/bin/*
 
 do-build-DOCS-on:
+	# cd ${WRKSRC} && ${ANT} maven-ant-tasks-init
 	cd ${WRKSRC} && ${ANT} javadoc
-	cd ${WRKSRC} && ${ANT} maven-ant-tasks-init
-	cd ${WRKSRC}/doc && ${MAKE} html PYTHON_CMD=${PYTHON_CMD}
+	cd ${WRKSRC}/doc && ${MAKE} html PYTHON_CMD=${PYTHON_CMD}    # This is the 'gen-doc' target, but using the correct python
+	cd ${WRKSRC} && ${ANT} freebsd-stage-doc
+
+# May need this for do-install-DOCS-on:
+# mkdir build/javadoc
 
 .include <bsd.port.mk>

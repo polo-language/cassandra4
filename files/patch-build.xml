@@ -1,0 +1,80 @@
+--- build.xml.orig	2017-10-02 07:34:49 UTC
++++ build.xml
+@@ -1016,6 +1016,77 @@
+       </jar>
+     </target>
+ 
++    <!-- FreeBSD for staging -->
++    <target name="freebsd-stage" depends="jar"
++            description="Create Cassandra directory structure for staging">
++      <mkdir dir="${dist.dir}"/>
++      <copy todir="${dist.dir}/lib">
++        <fileset dir="${build.lib}"/>
++        <fileset dir="${build.dir}">
++          <include name="${final.name}.jar" />
++          <include name="${ant.project.name}-thrift-${version}.jar" />
++        </fileset>
++      </copy>
++      <copy todir="${dist.dir}/bin">
++        <fileset dir="bin">
++	  <exclude name="*.bat" />
++	  <exclude name="*.ps1" />
++	</fileset>
++      </copy>
++      <copy todir="${dist.dir}/conf">
++        <fileset dir="conf"/>
++      </copy>
++      <copy todir="${dist.dir}/interface">
++        <fileset dir="interface">
++          <include name="**/*.thrift" />
++        </fileset>
++      </copy>
++      <copy todir="${dist.dir}/pylib">
++        <fileset dir="pylib">
++          <include name="**" />
++          <exclude name="**/*.pyc" />
++        </fileset>
++      </copy>
++      <copy todir="${dist.dir}/">
++        <fileset dir="${basedir}">
++          <include name="*.txt" />
++        </fileset>
++      </copy>
++      <copy todir="${dist.dir}/tools/bin">
++        <fileset dir="${basedir}/tools/bin"/>
++      </copy>
++      <copy todir="${dist.dir}/tools/">
++        <fileset dir="${basedir}/tools/">
++            <include name="*.yaml"/>
++	</fileset>
++      </copy>
++      <copy todir="${dist.dir}/tools/lib">
++        <fileset dir="${build.dir}/tools/lib/">
++            <include name="*.jar" />
++        </fileset>
++      </copy>
++    </target>
++
++    <!-- Depends on 'gen-doc' as well, which must be run from make with the correct python. -->
++    <target name="freebsd-stage-doc" depends="freebsd-stage,javadoc"
++            description="Copy Cassandra docs for staging">
++      <mkdir dir="${dist.dir}/javadoc"/>
++      <copy todir="${dist.dir}/javadoc">
++        <fileset dir="${javadoc.dir}"/>
++      </copy>
++      <copy todir="${dist.dir}/doc">
++        <fileset dir="doc">
++          <include name="cql3/CQL.html" />
++          <include name="cql3/CQL.css" />
++          <include name="SASI.md" />
++        </fileset>
++      </copy>
++      <copy todir="${dist.dir}/doc/html">
++        <fileset dir="doc" />
++        <globmapper from="build/html/*" to="*"/>
++      </copy>
++    </target>
++
+     <!-- creates release tarballs -->
+     <target name="artifacts" depends="jar,javadoc,gen-doc"
+             description="Create Cassandra release artifacts">
