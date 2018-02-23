@@ -24,6 +24,21 @@ JAVA_VENDOR=	openjdk
 USE_JAVA=	yes
 USE_ANT=        yes
 ALL_TARGET=     artifacts
+
+OPTIONS_DEFINE= DOCS
+PYTHON_PKGNAMEPREFIX= py27-
+DOCS_USES=            python:2.7
+DOCS_BUILD_DEPENDS=   ${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx@${FLAVOR} \
+                      ${PYTHON_PKGNAMEPREFIX}sphinx_rtd_theme>0:textproc/py-sphinx_rtd_theme@${FLAVOR}
+
 # USE_RC_SUBR=	cassandra  # TODO: Should be an 'install as daemon option'.
+
+do-build:
+	cd ${WRKSRC} && ${ANT} jar
+
+do-build-DOCS-on:
+	cd ${WRKSRC} && ${ANT} javadoc
+	cd ${WRKSRC} && ${ANT} maven-ant-tasks-init
+	cd ${WRKSRC}/doc && ${MAKE} html PYTHON_CMD=${PYTHON_CMD}
 
 .include <bsd.port.mk>
