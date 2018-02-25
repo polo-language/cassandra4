@@ -1,6 +1,22 @@
 --- build.xml.orig	2017-10-02 07:34:49 UTC
 +++ build.xml
-@@ -1016,6 +1016,77 @@
+@@ -19,6 +19,7 @@
+  -->
+ <project basedir="." default="jar" name="apache-cassandra"
+          xmlns:artifact="antlib:org.apache.maven.artifact.ant">
++    <property name="pycmd" value="python"/>
+     <property environment="env"/>
+     <property file="build.properties" />
+     <property file="build.properties.default" />
+@@ -258,6 +259,7 @@
+     <target name="gen-doc" depends="maven-ant-tasks-init" description="Generate documentation">
+         <exec executable="make" osfamily="unix" dir="${doc.dir}">
+             <arg value="html"/>
++            <arg value="PYTHON_CMD=${pycmd}"/>
+         </exec>
+         <exec executable="cmd" osfamily="dos" dir="${doc.dir}">
+             <arg value="/c"/>
+@@ -1016,6 +1018,118 @@
        </jar>
      </target>
  
@@ -55,10 +71,16 @@
 +      </copy>
 +    </target>
 +
-+    <!-- Depends on 'gen-doc' as well, which must be run from make with the correct python. -->
-+    <target name="freebsd-stage-doc" depends="freebsd-stage,javadoc"
-+            description="Copy Cassandra docs for staging">
-+      <mkdir dir="${dist.dir}/javadoc"/>
++    <target name="freebsd-stage-doc" depends="jar,javadoc,gen-doc"
++            description="Create Cassandra directory structure for staging, including docs">
++      <mkdir dir="${dist.dir}"/>
++      <copy todir="${dist.dir}/lib">
++        <fileset dir="${build.lib}"/>
++        <fileset dir="${build.dir}">
++          <include name="${final.name}.jar" />
++          <include name="${ant.project.name}-thrift-${version}.jar" />
++        </fileset>
++      </copy>
 +      <copy todir="${dist.dir}/javadoc">
 +        <fileset dir="${javadoc.dir}"/>
 +      </copy>
@@ -72,6 +94,41 @@
 +      <copy todir="${dist.dir}/doc/html">
 +        <fileset dir="doc" />
 +        <globmapper from="build/html/*" to="*"/>
++      </copy>
++      <copy todir="${dist.dir}/bin">
++        <fileset dir="bin"/>
++      </copy>
++      <copy todir="${dist.dir}/conf">
++        <fileset dir="conf"/>
++      </copy>
++      <copy todir="${dist.dir}/interface">
++        <fileset dir="interface">
++          <include name="**/*.thrift" />
++        </fileset>
++      </copy>
++      <copy todir="${dist.dir}/pylib">
++        <fileset dir="pylib">
++          <include name="**" />
++          <exclude name="**/*.pyc" />
++        </fileset>
++      </copy>
++      <copy todir="${dist.dir}/">
++        <fileset dir="${basedir}">
++          <include name="*.txt" />
++        </fileset>
++      </copy>
++      <copy todir="${dist.dir}/tools/bin">
++        <fileset dir="${basedir}/tools/bin"/>
++      </copy>
++      <copy todir="${dist.dir}/tools/">
++        <fileset dir="${basedir}/tools/">
++            <include name="*.yaml"/>
++	</fileset>
++      </copy>
++      <copy todir="${dist.dir}/tools/lib">
++        <fileset dir="${build.dir}/tools/lib/">
++            <include name="*.jar" />
++        </fileset>
 +      </copy>
 +    </target>
 +

@@ -32,17 +32,16 @@ DOCS_BUILD_DEPENDS=   ${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx@${FLAVO
 
 # USE_RC_SUBR=	cassandra  # TODO: Should be an 'install as daemon option'.
 
-do-build:
+do-build-DOCS-on:
+	cd ${WRKSRC} && ${ANT} -Dpycmd=${PYTHON_CMD} freebsd-stage-doc
+
+do-build-DOCS-off:
 	cd ${WRKSRC} && ${ANT} freebsd-stage
+
+post-build:
 	chmod 755 ${WRKSRC}/build/dist/bin/*
 	chmod 644 ${WRKSRC}/build/dist/bin/*.in.sh
 	chmod 755 ${WRKSRC}/build/dist/tools/bin/*
-
-do-build-DOCS-on:
-	# cd ${WRKSRC} && ${ANT} maven-ant-tasks-init
-	cd ${WRKSRC} && ${ANT} javadoc
-	cd ${WRKSRC}/doc && ${MAKE} html PYTHON_CMD=${PYTHON_CMD}    # This is the 'gen-doc' target, but using the correct python
-	cd ${WRKSRC} && ${ANT} freebsd-stage-doc
 
 # May need this for do-install-DOCS-on:
 # mkdir build/javadoc
