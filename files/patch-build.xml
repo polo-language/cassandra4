@@ -8,7 +8,15 @@
      <property environment="env"/>
      <property file="build.properties" />
      <property file="build.properties.default" />
-@@ -258,6 +259,7 @@
+@@ -174,6 +175,7 @@
+         windowtitle="${ant.project.name} API" classpathref="cassandra.classpath"
+         bottom="Copyright &amp;copy; ${YEAR} The Apache Software Foundation"
+         useexternalfile="yes"
++        encoding="UTF-8"
+         maxmemory="256m">
+         <filesets/>
+       </javadoc>
+@@ -258,6 +260,7 @@
      <target name="gen-doc" depends="maven-ant-tasks-init" description="Generate documentation">
          <exec executable="make" osfamily="unix" dir="${doc.dir}">
              <arg value="html"/>
@@ -16,7 +24,7 @@
          </exec>
          <exec executable="cmd" osfamily="dos" dir="${doc.dir}">
              <arg value="/c"/>
-@@ -1016,6 +1018,118 @@
+@@ -1016,6 +1019,118 @@
        </jar>
      </target>
  
