@@ -24,7 +24,7 @@
          </exec>
          <exec executable="cmd" osfamily="dos" dir="${doc.dir}">
              <arg value="/c"/>
-@@ -1016,6 +1019,118 @@
+@@ -1016,6 +1019,121 @@
        </jar>
      </target>
  
@@ -104,7 +104,10 @@
 +        <globmapper from="build/html/*" to="*"/>
 +      </copy>
 +      <copy todir="${dist.dir}/bin">
-+        <fileset dir="bin"/>
++        <fileset dir="bin">
++          <exclude name="*.bat" />
++          <exclude name="*.ps1" />
++        </fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/conf">
 +        <fileset dir="conf"/>
