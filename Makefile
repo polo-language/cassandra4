@@ -34,8 +34,7 @@ CONFIG_FILES=   cassandra-env.sh \
 		hotspot_compiler \
 		jvm.options \
 		logback-tools.xml \
-		logback.xml \
-		metrics-reporter-config-sample.yaml
+		logback.xml
 
 SCRIPT_FILES=   cassandra \
 		cqlsh \
