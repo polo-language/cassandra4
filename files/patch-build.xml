@@ -24,7 +24,7 @@
          </exec>
          <exec executable="cmd" osfamily="dos" dir="${doc.dir}">
              <arg value="/c"/>
-@@ -1016,6 +1019,121 @@
+@@ -1016,6 +1019,131 @@
        </jar>
      </target>
  
@@ -46,7 +46,9 @@
 +	</fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/conf">
-+        <fileset dir="conf"/>
++        <fileset dir="conf">
++          <exclude name="*.ps1" />
++        </fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/interface">
 +        <fileset dir="interface">
@@ -65,7 +67,10 @@
 +        </fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/tools/bin">
-+        <fileset dir="${basedir}/tools/bin"/>
++        <fileset dir="${basedir}/tools/bin">
++          <exclude name="*.bat" />
++          <exclude name="*.ps1" />
++        </fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/tools/">
 +        <fileset dir="${basedir}/tools/">
@@ -110,7 +115,9 @@
 +        </fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/conf">
-+        <fileset dir="conf"/>
++        <fileset dir="conf">
++          <exclude name="*.ps1" />
++        </fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/interface">
 +        <fileset dir="interface">
@@ -129,7 +136,10 @@
 +        </fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/tools/bin">
-+        <fileset dir="${basedir}/tools/bin"/>
++        <fileset dir="${basedir}/tools/bin">
++          <exclude name="*.bat" />
++          <exclude name="*.ps1" />
++        </fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/tools/">
 +        <fileset dir="${basedir}/tools/">
