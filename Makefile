@@ -5,25 +5,26 @@ PORTVERSION=	3.11.1
 CATEGORIES=	databases java
 MASTER_SITES=	https://github.com/apache/cassandra/archive/
 PKGNAMESUFFIX=	3
-WRKSRC=         ${WRKDIR}/cassandra-${PORTNAME}-${PORTVERSION}
 
 MAINTAINER=	polo.language@gmail.com
-COMMENT=	A highly scalable second-generation distributed database, bringing together Dynamo\'s fully distributed design and Bigtable\'s ColumnFamily-based data model.
+COMMENT=	Highly scalable second-generation distributed database
+
 LICENSE=	APACHE20
+
+OPTIONS_DEFINE= DOCS
+PYTHON_PKGNAMEPREFIX= py27-
+USES=            python:2.7
+DOCS_BUILD_DEPENDS=   ${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx \
+			${PYTHON_PKGNAMEPREFIX}sphinx_rtd_theme>0:textproc/py-sphinx_rtd_theme
+PORTDOCS=       *
 
 JAVA_VERSION=	1.8
 JAVA_VENDOR=	openjdk
 USE_JAVA=	yes
 USE_ANT=        yes
 
-OPTIONS_DEFINE= DOCS
-PYTHON_PKGNAMEPREFIX= py27-
-USES=            python:2.7
-DOCS_BUILD_DEPENDS=   ${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx \
-                      ${PYTHON_PKGNAMEPREFIX}sphinx_rtd_theme>0:textproc/py-sphinx_rtd_theme
-PORTDOCS=       *
-
 DATADIR=        ${JAVASHAREDIR}/${PORTNAME}
+WRKSRC=         ${WRKDIR}/cassandra-${PORTNAME}-${PORTVERSION}
 DIST_DIR=       ${WRKSRC}/build/dist
 
 CONFIG_FILES=   cassandra-env.sh \
@@ -62,7 +63,7 @@ post-build:
 
 do-install:
 .for d in interface lib pylib tools
-        cd ${DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DATADIR}/ "! -path '*/bin/*'"
+	cd ${DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DATADIR}/ "! -path '*/bin/*'"
 .endfor
 	# cd ${DIST_DIR} && ${COPYTREE_SHARE} . ${STAGEDIR}${DATADIR} "! \( -path '*/bin/*' -o -name bin \)"
 	${MKDIR} ${STAGEDIR}${DATADIR}/bin
