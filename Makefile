@@ -37,6 +37,15 @@ CONFIG_FILES=   cassandra-env.sh \
 		logback.xml \
 		metrics-reporter-config-sample.yaml
 
+SCRIPT_FILES=   cassandra \
+		cqlsh \
+		nodetool \
+		sstableloader \
+		sstablescrub \
+		sstableupgrade \
+		sstableutil \
+		sstableverify
+
 do-build-DOCS-on:
 	cd ${WRKSRC} && ${ANT} -Dpycmd=${PYTHON_CMD} freebsd-stage-doc
 
@@ -62,6 +71,9 @@ do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}/tools/bin
 	cd ${DIST_DIR} && ${COPYTREE_BIN} tools/bin/* ${STAGEDIR}${DATADIR}/tools/bin "! -name *.in.sh"
 	cd ${DIST_DIR} && ${INSTALL_DATA} tools/bin/*.in.sh ${STAGEDIR}${DATADIR}/tools/bin
+.for f in ${SCRIPT_FILES}
+	${LN} -sf ${STAGEDIR}${DATADIR}/bin/${f} ${STAGEDIR}${PREFIX}/bin/${f}
+.endfor
 
 post-install-DOCS-on:
 	${MKDIR} ${STAGEDIR}${DOCSDIR}
