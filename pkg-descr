@@ -1,1 +1,14 @@
-The Apache Cassandra database is the right choice when you need scalability and high availability without compromising performance. Linear scalability and proven fault-tolerance on commodity hardware or cloud infrastructure make it the perfect platform for mission-critical data.Cassandra's support for replicating across multiple datacenters is best-in-class, providing lower latency for your users and the peace of mind of knowing that you can survive regional outages.
+Apache Cassandra is a free and open-source distributed database.
+It is a Java-based, highly scalable, eventually consistent, wide
+column store. Cassandra database clusters are masterless with no
+single point of failure. Replication can be configured across
+multiple data centers.
+
+Originally influenced by Dynamo and BigTable, Cassandra was initially
+developed at and open sourced by Facebook before becoming a top-level
+Apache project.
+
+The CQL query language offers SQL-like data access and management.
+Drivers are available for a number of languages.
+
+WWW: http://cassandra.apache.org/
