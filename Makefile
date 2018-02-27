@@ -21,6 +21,7 @@ PYTHON_PKGNAMEPREFIX= py27-
 USES=            python:2.7
 DOCS_BUILD_DEPENDS=   ${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx \
                       ${PYTHON_PKGNAMEPREFIX}sphinx_rtd_theme>0:textproc/py-sphinx_rtd_theme
+PORTDOCS=       *
 
 DATADIR=        ${JAVASHAREDIR}/${PORTNAME}
 DIST_DIR=       ${WRKSRC}/build/dist
