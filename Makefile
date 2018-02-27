@@ -11,23 +11,23 @@ COMMENT=	Highly scalable second-generation distributed database
 
 LICENSE=	APACHE20
 
-OPTIONS_DEFINE= DOCS
-PYTHON_PKGNAMEPREFIX= py27-
-USES=            python:2.7
-DOCS_BUILD_DEPENDS=   ${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx \
+OPTIONS_DEFINE=		DOCS
+PYTHON_PKGNAMEPREFIX=	py27-
+USES=			python:2.7
+DOCS_BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx \
 			${PYTHON_PKGNAMEPREFIX}sphinx_rtd_theme>0:textproc/py-sphinx_rtd_theme
-PORTDOCS=       *
+PORTDOCS=	*
 
 JAVA_VERSION=	1.8
 JAVA_VENDOR=	openjdk
 USE_JAVA=	yes
-USE_ANT=        yes
+USE_ANT=	yes
 
-DATADIR=        ${JAVASHAREDIR}/${PORTNAME}
-WRKSRC=         ${WRKDIR}/cassandra-${PORTNAME}-${PORTVERSION}
-DIST_DIR=       ${WRKSRC}/build/dist
+DATADIR=	${JAVASHAREDIR}/${PORTNAME}
+WRKSRC=		${WRKDIR}/cassandra-${PORTNAME}-${PORTVERSION}
+DIST_DIR=	${WRKSRC}/build/dist
 
-CONFIG_FILES=   cassandra-env.sh \
+CONFIG_FILES=	cassandra-env.sh \
 		cassandra-jaas.config \
 		cassandra-rackdc.properties \
 		cassandra-topology.properties \
@@ -38,7 +38,7 @@ CONFIG_FILES=   cassandra-env.sh \
 		logback-tools.xml \
 		logback.xml
 
-SCRIPT_FILES=   cassandra \
+SCRIPT_FILES=	cassandra \
 		cqlsh \
 		nodetool \
 		sstableloader \
@@ -65,7 +65,6 @@ do-install:
 .for d in interface lib pylib tools
 	cd ${DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DATADIR}/ "! -path '*/bin/*'"
 .endfor
-	# cd ${DIST_DIR} && ${COPYTREE_SHARE} . ${STAGEDIR}${DATADIR} "! \( -path '*/bin/*' -o -name bin \)"
 	${MKDIR} ${STAGEDIR}${DATADIR}/bin
 	cd ${DIST_DIR} && ${COPYTREE_BIN} bin/* ${STAGEDIR}${DATADIR}/bin "! -name *.in.sh"
 	cd ${DIST_DIR} && ${INSTALL_DATA} bin/*.in.sh ${STAGEDIR}${DATADIR}/bin
