@@ -37,6 +37,7 @@ CONFIG_FILES=	cassandra-env.sh \
 		jvm.options \
 		logback-tools.xml \
 		logback.xml
+# Note: The cassandra.in.sh in bin and tools/bin are config files too.
 
 SCRIPT_FILES=	cassandra \
 		cqlsh \
@@ -57,6 +58,8 @@ post-build:
 .for f in ${CONFIG_FILES}
 	${MV} ${DIST_DIR}/conf/${f} ${DIST_DIR}/conf/${f}.sample
 .endfor
+	${MV} ${DIST_DIR}/bin/cassandra.in.sh ${DIST_DIR}/bin/cassandra.in.sh.sample
+	${MV} ${DIST_DIR}/tools/bin/cassandra.in.sh ${DIST_DIR}/tools/bin/cassandra.in.sh.sample
 
 do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}
@@ -67,10 +70,9 @@ do-install:
 	cd ${DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DATADIR}/ "! -path '*/bin/*'"
 .endfor
 	cd ${DIST_DIR} && ${COPYTREE_BIN} bin ${STAGEDIR}${DATADIR}
-	cd ${DIST_DIR} && ${INSTALL_DATA} bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/bin
-	#${MKDIR} ${STAGEDIR}${DATADIR}/tools/bin
+	cd ${DIST_DIR} && ${INSTALL_DATA} bin/cassandra.in.sh.sample ${STAGEDIR}${DATADIR}/bin/
 	cd ${DIST_DIR} && ${COPYTREE_BIN} tools/bin ${STAGEDIR}${DATADIR}/tools
-	cd ${DIST_DIR} && ${INSTALL_DATA} tools/bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/tools/bin
+	cd ${DIST_DIR} && ${INSTALL_DATA} tools/bin/cassandra.in.sh.sample ${STAGEDIR}${DATADIR}/tools/bin/
 .for f in ${SCRIPT_FILES}
 	${LN} -sf ${DATADIR}/bin/${f} ${STAGEDIR}${PREFIX}/bin/${f}
 .endfor

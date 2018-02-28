@@ -1,5 +1,4 @@
 %%DATADIR%%/bin/cassandra
-%%DATADIR%%/bin/cassandra.in.sh
 %%DATADIR%%/bin/cqlsh
 %%DATADIR%%/bin/cqlsh.py
 %%DATADIR%%/bin/debug-cql
@@ -191,6 +190,7 @@
 %%DATADIR%%/tools/cqlstress-example.yaml
 %%DATADIR%%/tools/cqlstress-insanity-example.yaml
 %%DATADIR%%/tools/lib/stress.jar
+@sample %%DATADIR%%/bin/cassandra.in.sh.sample
 @sample %%DATADIR%%/conf/cassandra-env.sh.sample
 @sample %%DATADIR%%/conf/cassandra-jaas.config.sample
 @sample %%DATADIR%%/conf/cassandra-rackdc.properties.sample
