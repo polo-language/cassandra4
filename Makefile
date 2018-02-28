@@ -7,7 +7,7 @@ MASTER_SITES=	https://github.com/apache/cassandra/archive/
 PKGNAMESUFFIX=	3
 
 MAINTAINER=	polo.language@gmail.com
-COMMENT=	Highly scalable second-generation distributed database
+COMMENT=	Highly scalable distributed database
 
 LICENSE=	APACHE20
 
@@ -57,22 +57,22 @@ post-build:
 .for f in ${CONFIG_FILES}
 	${MV} ${DIST_DIR}/conf/${f} ${DIST_DIR}/conf/${f}.sample
 .endfor
-	# @chmod 755 ${WRKSRC}/build/dist/bin/*
-	# @chmod 644 ${WRKSRC}/build/dist/bin/*.in.sh
-	# @chmod 755 ${WRKSRC}/build/dist/tools/bin/*
 
 do-install:
-.for d in interface lib pylib tools
+	${MKDIR} ${STAGEDIR}${DATADIR}
+.for f in CHANGES LICENSE NEWS NOTICE
+	cd ${DIST_DIR} && ${INSTALL_DATA} ${f}.txt ${STAGEDIR}${DATADIR}/
+.endfor
+.for d in conf interface lib pylib tools
 	cd ${DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DATADIR}/ "! -path '*/bin/*'"
 .endfor
-	${MKDIR} ${STAGEDIR}${DATADIR}/bin
-	cd ${DIST_DIR} && ${COPYTREE_BIN} bin/* ${STAGEDIR}${DATADIR}/bin "! -name *.in.sh"
-	cd ${DIST_DIR} && ${INSTALL_DATA} bin/*.in.sh ${STAGEDIR}${DATADIR}/bin
-	${MKDIR} ${STAGEDIR}${DATADIR}/tools/bin
-	cd ${DIST_DIR} && ${COPYTREE_BIN} tools/bin/* ${STAGEDIR}${DATADIR}/tools/bin "! -name *.in.sh"
-	cd ${DIST_DIR} && ${INSTALL_DATA} tools/bin/*.in.sh ${STAGEDIR}${DATADIR}/tools/bin
+	cd ${DIST_DIR} && ${COPYTREE_BIN} bin ${STAGEDIR}${DATADIR}
+	cd ${DIST_DIR} && ${INSTALL_DATA} bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/bin
+	#${MKDIR} ${STAGEDIR}${DATADIR}/tools/bin
+	cd ${DIST_DIR} && ${COPYTREE_BIN} tools/bin ${STAGEDIR}${DATADIR}/tools
+	cd ${DIST_DIR} && ${INSTALL_DATA} tools/bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/tools/bin
 .for f in ${SCRIPT_FILES}
-	${LN} -sf ${STAGEDIR}${DATADIR}/bin/${f} ${STAGEDIR}${PREFIX}/bin/${f}
+	${LN} -sf ${DATADIR}/bin/${f} ${STAGEDIR}${PREFIX}/bin/${f}
 .endfor
 
 post-install-DOCS-on:
