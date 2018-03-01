@@ -22,6 +22,7 @@ JAVA_VERSION=	1.8
 JAVA_VENDOR=	openjdk
 USE_JAVA=	yes
 USE_ANT=	yes
+REINPLACE_ARGS=	-i ''
 
 DATADIR=	${JAVASHAREDIR}/${PORTNAME}
 WRKSRC=		${WRKDIR}/cassandra-${PORTNAME}-${PORTVERSION}
@@ -55,6 +56,10 @@ do-build-DOCS-off:
 	cd ${WRKSRC} && ${ANT} freebsd-stage
 
 post-build:
+.for f in ${SCRIPT_FILES}
+	${REINPLACE_CMD} -e 's|/usr/share/cassandra|${DATADIR}/bin|' ${DIST_DIR}/bin/${f}
+.endfor
+	${REINPLACE_CMD} -e 's|\`dirname \$$\0\`/..|${DATADIR}|' ${DIST_DIR}/bin/cassandra.in.sh
 .for f in ${CONFIG_FILES}
 	${MV} ${DIST_DIR}/conf/${f} ${DIST_DIR}/conf/${f}.sample
 .endfor
