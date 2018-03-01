@@ -59,7 +59,7 @@ post-build:
 .for f in ${SCRIPT_FILES}
 	${REINPLACE_CMD} -e 's|/usr/share/cassandra|${DATADIR}/bin|' ${DIST_DIR}/bin/${f}
 .endfor
-	${REINPLACE_CMD} -e 's|\`dirname \$$\0\`/..|${DATADIR}|' ${DIST_DIR}/bin/cassandra.in.sh
+	${REINPLACE_CMD} -e 's|\`dirname "\$$\0"\`/..|${DATADIR}|' ${DIST_DIR}/bin/cassandra.in.sh
 .for f in ${CONFIG_FILES}
 	${MV} ${DIST_DIR}/conf/${f} ${DIST_DIR}/conf/${f}.sample
 .endfor
