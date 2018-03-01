@@ -177,7 +177,6 @@
 %%DATADIR%%/pylib/setup.py
 %%DATADIR%%/tools/bin/cassandra-stress
 %%DATADIR%%/tools/bin/cassandra-stressd
-%%DATADIR%%/tools/bin/cassandra.in.sh
 %%DATADIR%%/tools/bin/compaction-stress
 %%DATADIR%%/tools/bin/sstabledump
 %%DATADIR%%/tools/bin/sstableexpiredblockers
@@ -202,6 +201,7 @@
 @sample %%DATADIR%%/conf/jvm.options.sample
 @sample %%DATADIR%%/conf/logback-tools.xml.sample
 @sample %%DATADIR%%/conf/logback.xml.sample
+@sample %%DATADIR%%/tools/bin/cassandra.in.sh
 bin/cassandra
 bin/cqlsh
 bin/nodetool
