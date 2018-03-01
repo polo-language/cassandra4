@@ -24,7 +24,7 @@
          </exec>
          <exec executable="cmd" osfamily="dos" dir="${doc.dir}">
              <arg value="/c"/>
-@@ -1016,6 +1019,131 @@
+@@ -1016,6 +1019,137 @@
        </jar>
      </target>
  
@@ -33,7 +33,10 @@
 +            description="Create Cassandra directory structure for staging">
 +      <mkdir dir="${dist.dir}"/>
 +      <copy todir="${dist.dir}/lib">
-+        <fileset dir="${build.lib}"/>
++        <fileset dir="${build.lib}">
++          <exclude name="sigar*.jar"/>
++          <exclude name="sigar-bin/*"/>
++        </fileset>
 +        <fileset dir="${build.dir}">
 +          <include name="${final.name}.jar" />
 +          <include name="${ant.project.name}-thrift-${version}.jar" />
@@ -88,7 +91,10 @@
 +            description="Create Cassandra directory structure for staging, including docs">
 +      <mkdir dir="${dist.dir}"/>
 +      <copy todir="${dist.dir}/lib">
-+        <fileset dir="${build.lib}"/>
++        <fileset dir="${build.lib}">
++          <exclude name="sigar*.jar"/>
++          <exclude name="sigar-bin/*"/>
++        </fileset>
 +        <fileset dir="${build.dir}">
 +          <include name="${final.name}.jar" />
 +          <include name="${ant.project.name}-thrift-${version}.jar" />
