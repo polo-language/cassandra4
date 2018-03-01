@@ -201,7 +201,7 @@
 @sample %%DATADIR%%/conf/jvm.options.sample
 @sample %%DATADIR%%/conf/logback-tools.xml.sample
 @sample %%DATADIR%%/conf/logback.xml.sample
-@sample %%DATADIR%%/tools/bin/cassandra.in.sh
+@sample %%DATADIR%%/tools/bin/cassandra.in.sh.sample
 bin/cassandra
 bin/cqlsh
 bin/nodetool
