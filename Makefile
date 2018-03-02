@@ -3,8 +3,9 @@
 PORTNAME=	cassandra
 PORTVERSION=	3.11.1
 CATEGORIES=	databases java
-MASTER_SITES=	APACHE/cassandra/
+MASTER_SITES=	APACHE/cassandra/${PORTVERSION}
 PKGNAMESUFFIX=	3
+DISTNAME=	apache-${PORTNAME}-${PORTVERSION}-src
 
 MAINTAINER=	polo.language@gmail.com
 COMMENT=	Highly scalable distributed database
@@ -28,7 +29,6 @@ USE_ANT=	yes
 REINPLACE_ARGS=	-i ''
 
 DATADIR=	${JAVASHAREDIR}/${PORTNAME}
-WRKSRC=		${WRKDIR}/cassandra-${PORTNAME}-${PORTVERSION}
 DIST_DIR=	${WRKSRC}/build/dist
 
 CONFIG_FILES=	cassandra-env.sh \
