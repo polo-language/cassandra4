@@ -11,12 +11,15 @@ COMMENT=	Highly scalable distributed database
 
 LICENSE=	APACHE20
 
-OPTIONS_DEFINE=		DOCS
+OPTIONS_DEFINE=		DOCS SIGAR
+OPTIONS_DEFAULT=	SIGAR
 PYTHON_PKGNAMEPREFIX=	py27-
 USES=			python:2.7
 DOCS_BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx \
 			${PYTHON_PKGNAMEPREFIX}sphinx_rtd_theme>0:textproc/py-sphinx_rtd_theme
 PORTDOCS=	*
+SIGAR_RUN_DEPENDS=	java-sigar>=1.6.4:java/sigar
+SIGAR_DESC=		Use SIGAR to collect system information
 
 JAVA_VERSION=	1.8
 JAVA_VENDOR=	openjdk
@@ -49,6 +52,12 @@ SCRIPT_FILES=	cassandra \
 		sstableutil \
 		sstableverify
 
+.include <bsd.port.options.mk>
+
+.if ${PORT_OPTIONS:MSIGAR}
+FIND_SIGAR_LIB=	${FIND} ${JAVAJARDIR} -name libsigar*.so
+.endif
+
 do-build-DOCS-on:
 	cd ${WRKSRC} && ${ANT} -Dpycmd=${PYTHON_CMD} freebsd-stage-doc
 
@@ -79,13 +88,17 @@ do-install:
 	cd ${DIST_DIR} && ${COPYTREE_BIN} tools/bin ${STAGEDIR}${DATADIR}/tools
 	cd ${DIST_DIR} && ${INSTALL_DATA} tools/bin/cassandra.in.sh.sample ${STAGEDIR}${DATADIR}/tools/bin/
 .for f in ${SCRIPT_FILES}
-	${LN} -sf ${DATADIR}/bin/${f} ${STAGEDIR}${PREFIX}/bin/${f}
+	${RLN} ${STAGEDIR}${DATADIR}/bin/${f} ${STAGEDIR}${PREFIX}/bin/${f}
 .endfor
 
-post-install-DOCS-on:
+do-install-DOCS-on:
 	${MKDIR} ${STAGEDIR}${DOCSDIR}
 .for d in doc javadoc
 	cd ${DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DOCSDIR}/
 .endfor
+
+do-install-SIGAR-on:
+	${RLN} ${JAVAJARDIR}/sigar.jar ${STAGEDIR}${DATADIR}/lib/sigar.jar
+	${RLN} `${FIND_SIGAR_LIB}` ${STAGEDIR}${DATADIR}/lib/sigar-bin/libsigar.so
 
 .include <bsd.port.mk>
