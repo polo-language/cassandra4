@@ -3,7 +3,7 @@
 PORTNAME=	cassandra
 PORTVERSION=	3.11.1
 CATEGORIES=	databases java
-MASTER_SITES=	https://github.com/apache/cassandra/archive/
+MASTER_SITES=	APACHE/cassandra/
 PKGNAMESUFFIX=	3
 
 MAINTAINER=	polo.language@gmail.com
