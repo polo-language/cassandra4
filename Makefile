@@ -14,13 +14,15 @@ LICENSE=	APACHE20
 
 OPTIONS_DEFINE=		DOCS SIGAR
 OPTIONS_DEFAULT=	SIGAR
+OPTIONS_SUB=		yes
 PYTHON_PKGNAMEPREFIX=	py27-
 USES=			python:2.7
 DOCS_BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx \
 			${PYTHON_PKGNAMEPREFIX}sphinx_rtd_theme>0:textproc/py-sphinx_rtd_theme
-PORTDOCS=	*
+PORTDOCS=		*
 SIGAR_RUN_DEPENDS=	java-sigar>=1.6.4:java/sigar
 SIGAR_DESC=		Use SIGAR to collect system information
+PLIST_SUB=		PORTVERSION=${PORTVERSION}
 
 JAVA_VERSION=	1.8
 JAVA_VENDOR=	openjdk
@@ -51,12 +53,6 @@ SCRIPT_FILES=	cassandra \
 		sstableupgrade \
 		sstableutil \
 		sstableverify
-
-.include <bsd.port.options.mk>
-
-.if ${PORT_OPTIONS:MSIGAR}
-FIND_SIGAR_LIB=	${FIND} ${JAVAJARDIR} -name libsigar*.so
-.endif
 
 do-build-DOCS-on:
 	cd ${WRKSRC} && ${ANT} -Dpycmd=${PYTHON_CMD} freebsd-stage-doc
@@ -93,13 +89,13 @@ do-install:
 	${RLN} ${STAGEDIR}${DATADIR}/bin/${f} ${STAGEDIR}${PREFIX}/bin/${f}
 .endfor
 
-do-install-DOCS-on:
+post-install-DOCS-on:
 	${MKDIR} ${STAGEDIR}${DOCSDIR}
 .for d in doc javadoc
 	cd ${DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DOCSDIR}/
 .endfor
 
-do-install-SIGAR-on:
+post-install-SIGAR-on:
 	${LN} -s ${JAVAJARDIR}/sigar.jar ${STAGEDIR}${DATADIR}/lib/sigar.jar
 
 .include <bsd.port.mk>

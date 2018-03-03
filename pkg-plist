@@ -16,8 +16,8 @@
 %%DATADIR%%/interface/cassandra.thrift
 %%DATADIR%%/lib/airline-0.6.jar
 %%DATADIR%%/lib/antlr-runtime-3.5.2.jar
-%%DATADIR%%/lib/apache-cassandra-3.11.2-SNAPSHOT.jar
-%%DATADIR%%/lib/apache-cassandra-thrift-3.11.2-SNAPSHOT.jar
+%%DATADIR%%/lib/apache-cassandra-%%PORTVERSION%%-SNAPSHOT.jar
+%%DATADIR%%/lib/apache-cassandra-thrift-%%PORTVERSION%%-SNAPSHOT.jar
 %%DATADIR%%/lib/asm-5.0.4.jar
 %%DATADIR%%/lib/caffeine-2.2.6.jar
 %%DATADIR%%/lib/cassandra-driver-core-3.0.1-shaded.jar
@@ -113,7 +113,6 @@
 %%DATADIR%%/lib/ohc-core-j8-0.4.4.jar
 %%DATADIR%%/lib/reporter-config-base-3.0.3.jar
 %%DATADIR%%/lib/reporter-config3-3.0.3.jar
-%%DATADIR%%/lib/sigar.jar
 %%DATADIR%%/lib/six-1.7.3-py2.py3-none-any.zip
 %%DATADIR%%/lib/slf4j-api-1.7.7.jar
 %%DATADIR%%/lib/snakeyaml-1.11.jar
@@ -167,6 +166,7 @@
 %%DATADIR%%/tools/cqlstress-example.yaml
 %%DATADIR%%/tools/cqlstress-insanity-example.yaml
 %%DATADIR%%/tools/lib/stress.jar
+%%SIGAR%%/%%DATADIR%%/lib/sigar.jar
 @sample %%DATADIR%%/bin/cassandra.in.sh.sample
 @sample %%DATADIR%%/conf/cassandra-env.sh.sample
 @sample %%DATADIR%%/conf/cassandra-jaas.config.sample
