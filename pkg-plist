@@ -1,4 +1,5 @@
 %%DATADIR%%/bin/cassandra
+%%DATADIR%%/bin/cassandra.in.sh
 %%DATADIR%%/bin/cqlsh
 %%DATADIR%%/bin/cqlsh.py
 %%DATADIR%%/bin/debug-cql
@@ -10,9 +11,6 @@
 %%DATADIR%%/bin/sstableverify
 %%DATADIR%%/bin/stop-server
 %%DATADIR%%/CHANGES.txt
-%%DATADIR%%/conf/metrics-reporter-config-sample.yaml
-%%DATADIR%%/conf/README.txt
-%%DATADIR%%/conf/triggers/README.txt
 %%DATADIR%%/interface/cassandra.thrift
 %%DATADIR%%/lib/airline-0.6.jar
 %%DATADIR%%/lib/antlr-runtime-3.5.2.jar
@@ -154,6 +152,7 @@
 %%DATADIR%%/pylib/setup.py
 %%DATADIR%%/tools/bin/cassandra-stress
 %%DATADIR%%/tools/bin/cassandra-stressd
+%%DATADIR%%/tools/bin/cassandra.in.sh
 %%DATADIR%%/tools/bin/compaction-stress
 %%DATADIR%%/tools/bin/sstabledump
 %%DATADIR%%/tools/bin/sstableexpiredblockers
@@ -166,20 +165,21 @@
 %%DATADIR%%/tools/cqlstress-example.yaml
 %%DATADIR%%/tools/cqlstress-insanity-example.yaml
 %%DATADIR%%/tools/lib/stress.jar
+%%ETCDIR%%/metrics-reporter-config-sample.yaml
+%%ETCDIR%%/README.txt
+%%ETCDIR%%/triggers/README.txt
 %%SIGAR%%/%%DATADIR%%/lib/sigar.jar
-@sample %%DATADIR%%/bin/cassandra.in.sh.sample
-@sample %%DATADIR%%/conf/cassandra-env.sh.sample
-@sample %%DATADIR%%/conf/cassandra-jaas.config.sample
-@sample %%DATADIR%%/conf/cassandra-rackdc.properties.sample
-@sample %%DATADIR%%/conf/cassandra-topology.properties.sample
-@sample %%DATADIR%%/conf/cassandra.yaml.sample
-@sample %%DATADIR%%/conf/commitlog_archiving.properties.sample
-@sample %%DATADIR%%/conf/cqlshrc.sample
-@sample %%DATADIR%%/conf/hotspot_compiler.sample
-@sample %%DATADIR%%/conf/jvm.options.sample
-@sample %%DATADIR%%/conf/logback-tools.xml.sample
-@sample %%DATADIR%%/conf/logback.xml.sample
-@sample %%DATADIR%%/tools/bin/cassandra.in.sh.sample
+@sample %%ETCDIR%%/cassandra-env.sh.sample
+@sample %%ETCDIR%%/cassandra-jaas.config.sample
+@sample %%ETCDIR%%/cassandra-rackdc.properties.sample
+@sample %%ETCDIR%%/cassandra-topology.properties.sample
+@sample %%ETCDIR%%/cassandra.yaml.sample
+@sample %%ETCDIR%%/commitlog_archiving.properties.sample
+@sample %%ETCDIR%%/cqlshrc.sample
+@sample %%ETCDIR%%/hotspot_compiler.sample
+@sample %%ETCDIR%%/jvm.options.sample
+@sample %%ETCDIR%%/logback-tools.xml.sample
+@sample %%ETCDIR%%/logback.xml.sample
 bin/cassandra
 bin/cqlsh
 bin/nodetool

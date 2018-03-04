@@ -43,7 +43,6 @@ CONFIG_FILES=	cassandra-env.sh \
 		jvm.options \
 		logback-tools.xml \
 		logback.xml
-# Note: The cassandra.in.sh in bin and tools/bin are config files too.
 
 SCRIPT_FILES=	cassandra \
 		cqlsh \
@@ -65,26 +64,28 @@ post-build:
 	${REINPLACE_CMD} -e 's|/usr/share/cassandra|${DATADIR}/bin|' ${DIST_DIR}/bin/${f}
 .endfor
 	${REINPLACE_CMD} -e 's|\`dirname "\$$\0"\`/..|${DATADIR}|' ${DIST_DIR}/bin/cassandra.in.sh
-	${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${DIST_DIR}/conf/cassandra-env.sh
 	${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${DIST_DIR}/bin/cassandra.in.sh
+	${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${DIST_DIR}/conf/cassandra-env.sh
+	${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/conf|${ETCDIR}|' ${DIST_DIR}/bin/cassandra.in.sh
+	${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/conf|${ETCDIR}|' ${DIST_DIR}/conf/cassandra-env.sh
 .for f in ${CONFIG_FILES}
 	${MV} ${DIST_DIR}/conf/${f} ${DIST_DIR}/conf/${f}.sample
 .endfor
-	${MV} ${DIST_DIR}/bin/cassandra.in.sh ${DIST_DIR}/bin/cassandra.in.sh.sample
-	${MV} ${DIST_DIR}/tools/bin/cassandra.in.sh ${DIST_DIR}/tools/bin/cassandra.in.sh.sample
 
 do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}
 .for f in CHANGES LICENSE NEWS NOTICE
 	cd ${DIST_DIR} && ${INSTALL_DATA} ${f}.txt ${STAGEDIR}${DATADIR}/
 .endfor
-.for d in conf interface lib pylib tools
+.for d in interface lib pylib tools
 	cd ${DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DATADIR}/ "! -path '*/bin/*'"
 .endfor
+	${MKDIR} ${STAGEDIR}${ETCDIR}
+	cd ${DIST_DIR}/conf && ${COPYTREE_SHARE} . ${STAGEDIR}${ETCDIR}/ #"! -path '*/triggers/*'"
 	cd ${DIST_DIR} && ${COPYTREE_BIN} bin ${STAGEDIR}${DATADIR}
-	cd ${DIST_DIR} && ${INSTALL_DATA} bin/cassandra.in.sh.sample ${STAGEDIR}${DATADIR}/bin/
+	cd ${DIST_DIR} && ${INSTALL_DATA} bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/bin/
 	cd ${DIST_DIR} && ${COPYTREE_BIN} tools/bin ${STAGEDIR}${DATADIR}/tools
-	cd ${DIST_DIR} && ${INSTALL_DATA} tools/bin/cassandra.in.sh.sample ${STAGEDIR}${DATADIR}/tools/bin/
+	cd ${DIST_DIR} && ${INSTALL_DATA} tools/bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/tools/bin/
 .for f in ${SCRIPT_FILES}
 	${RLN} ${STAGEDIR}${DATADIR}/bin/${f} ${STAGEDIR}${PREFIX}/bin/${f}
 .endfor
