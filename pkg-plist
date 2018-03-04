@@ -168,7 +168,7 @@
 %%ETCDIR%%/metrics-reporter-config-sample.yaml
 %%ETCDIR%%/README.txt
 %%ETCDIR%%/triggers/README.txt
-%%SIGAR%%/%%DATADIR%%/lib/sigar.jar
+%%SIGAR%%%%DATADIR%%/lib/sigar.jar
 @sample %%ETCDIR%%/cassandra-env.sh.sample
 @sample %%ETCDIR%%/cassandra-jaas.config.sample
 @sample %%ETCDIR%%/cassandra-rackdc.properties.sample
