@@ -7,7 +7,7 @@ MASTER_SITES=	APACHE/cassandra/${PORTVERSION}
 PKGNAMESUFFIX=	3
 DISTNAME=	apache-${PORTNAME}-${PORTVERSION}-src
 
-MAINTAINER=	polo.language@gmail.com
+MAINTAINER=	language.devel@gmail.com
 COMMENT=	Highly scalable distributed database
 
 LICENSE=	APACHE20
