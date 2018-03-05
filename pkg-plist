@@ -14,8 +14,8 @@
 %%DATADIR%%/interface/cassandra.thrift
 %%DATADIR%%/lib/airline-0.6.jar
 %%DATADIR%%/lib/antlr-runtime-3.5.2.jar
-%%DATADIR%%/lib/apache-cassandra-%%PORTVERSION%%-SNAPSHOT.jar
-%%DATADIR%%/lib/apache-cassandra-thrift-%%PORTVERSION%%-SNAPSHOT.jar
+%%DATADIR%%/lib/apache-cassandra-%%PORTVERSION%%.jar
+%%DATADIR%%/lib/apache-cassandra-thrift-%%PORTVERSION%%.jar
 %%DATADIR%%/lib/asm-5.0.4.jar
 %%DATADIR%%/lib/caffeine-2.2.6.jar
 %%DATADIR%%/lib/cassandra-driver-core-3.0.1-shaded.jar
