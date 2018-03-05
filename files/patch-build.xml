@@ -1,4 +1,4 @@
---- build.xml.orig	2018-03-02 22:18:49 UTC
+--- build.xml.orig	2018-02-14 20:43:59 UTC
 +++ build.xml
 @@ -23,6 +23,7 @@
      <property file="build.properties" />
@@ -8,6 +8,15 @@
  
      <!-- default version and SCM information -->
      <property name="base.version" value="3.11.2"/>
+@@ -75,7 +76,7 @@
+     <condition property="version" value="${base.version}">
+       <isset property="release"/>
+     </condition>
+-    <property name="version" value="${base.version}-SNAPSHOT"/>
++    <property name="version" value="${base.version}"/>
+     <property name="version.properties.dir"
+               value="${build.src.resources}/org/apache/cassandra/config/" />
+     <property name="final.name" value="${ant.project.name}-${version}"/>
 @@ -258,6 +259,7 @@
      <target name="gen-doc" depends="maven-ant-tasks-init" description="Generate documentation">
          <exec executable="make" osfamily="unix" dir="${doc.dir}">
