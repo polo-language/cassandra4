@@ -25,7 +25,7 @@
          </exec>
          <exec executable="cmd" osfamily="dos" dir="${doc.dir}">
              <arg value="/c"/>
-@@ -1018,6 +1020,137 @@
+@@ -1018,6 +1020,88 @@
        </jar>
      </target>
  
@@ -37,6 +37,8 @@
 +        <fileset dir="${build.lib}">
 +          <exclude name="sigar*.jar"/>
 +          <exclude name="sigar-bin/*"/>
++          <exclude name="snappy*.jar"/>
++          <exclude name="licenses/snappy*.txt"/>
 +        </fileset>
 +        <fileset dir="${build.dir}">
 +          <include name="${final.name}.jar" />
@@ -47,11 +49,13 @@
 +        <fileset dir="bin">
 +	  <exclude name="*.bat" />
 +	  <exclude name="*.ps1" />
++	  <exclude name="*.orig" />
 +	</fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/conf">
 +        <fileset dir="conf">
 +          <exclude name="*.ps1" />
++	  <exclude name="*.orig" />
 +        </fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/interface">
@@ -74,6 +78,7 @@
 +        <fileset dir="${basedir}/tools/bin">
 +          <exclude name="*.bat" />
 +          <exclude name="*.ps1" />
++	  <exclude name="*.orig" />
 +        </fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/tools/">
@@ -88,19 +93,8 @@
 +      </copy>
 +    </target>
 +
-+    <target name="freebsd-stage-doc" depends="jar,javadoc,gen-doc"
++    <target name="freebsd-stage-doc" depends="freebsd-stage,javadoc,gen-doc"
 +            description="Create Cassandra directory structure for staging, including docs">
-+      <mkdir dir="${dist.dir}"/>
-+      <copy todir="${dist.dir}/lib">
-+        <fileset dir="${build.lib}">
-+          <exclude name="sigar*.jar"/>
-+          <exclude name="sigar-bin/*"/>
-+        </fileset>
-+        <fileset dir="${build.dir}">
-+          <include name="${final.name}.jar" />
-+          <include name="${ant.project.name}-thrift-${version}.jar" />
-+        </fileset>
-+      </copy>
 +      <copy todir="${dist.dir}/javadoc">
 +        <fileset dir="${javadoc.dir}"/>
 +      </copy>
@@ -114,49 +108,6 @@
 +      <copy todir="${dist.dir}/doc/html">
 +        <fileset dir="doc" />
 +        <globmapper from="build/html/*" to="*"/>
-+      </copy>
-+      <copy todir="${dist.dir}/bin">
-+        <fileset dir="bin">
-+          <exclude name="*.bat" />
-+          <exclude name="*.ps1" />
-+        </fileset>
-+      </copy>
-+      <copy todir="${dist.dir}/conf">
-+        <fileset dir="conf">
-+          <exclude name="*.ps1" />
-+        </fileset>
-+      </copy>
-+      <copy todir="${dist.dir}/interface">
-+        <fileset dir="interface">
-+          <include name="**/*.thrift" />
-+        </fileset>
-+      </copy>
-+      <copy todir="${dist.dir}/pylib">
-+        <fileset dir="pylib">
-+          <include name="**" />
-+          <exclude name="**/*.pyc" />
-+        </fileset>
-+      </copy>
-+      <copy todir="${dist.dir}/">
-+        <fileset dir="${basedir}">
-+          <include name="*.txt" />
-+        </fileset>
-+      </copy>
-+      <copy todir="${dist.dir}/tools/bin">
-+        <fileset dir="${basedir}/tools/bin">
-+          <exclude name="*.bat" />
-+          <exclude name="*.ps1" />
-+        </fileset>
-+      </copy>
-+      <copy todir="${dist.dir}/tools/">
-+        <fileset dir="${basedir}/tools/">
-+            <include name="*.yaml"/>
-+	</fileset>
-+      </copy>
-+      <copy todir="${dist.dir}/tools/lib">
-+        <fileset dir="${build.dir}/tools/lib/">
-+            <include name="*.jar" />
-+        </fileset>
 +      </copy>
 +    </target>
 +    
