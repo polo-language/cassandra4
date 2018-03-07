@@ -12,8 +12,8 @@ COMMENT=	Highly scalable distributed database
 
 LICENSE=	APACHE20
 
-OPTIONS_DEFINE=		DOCS SIGAR
-OPTIONS_DEFAULT=	SIGAR
+OPTIONS_DEFINE=		DOCS SIGAR SNAPPY
+OPTIONS_DEFAULT=	SIGAR SNAPPY
 OPTIONS_SUB=		yes
 PYTHON_PKGNAMEPREFIX=	py27-
 USES=			python:2.7
@@ -22,6 +22,8 @@ DOCS_BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx \
 PORTDOCS=		*
 SIGAR_RUN_DEPENDS=	java-sigar>=1.6.4:java/sigar
 SIGAR_DESC=		Use SIGAR to collect system information
+SNAPPY_RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java
+SNAPPY_DESC=		Include Snappy among compression algorithms
 PLIST_SUB=		PORTVERSION=${PORTVERSION}
 
 JAVA_VERSION=	1.8
@@ -98,5 +100,8 @@ post-install-DOCS-on:
 
 post-install-SIGAR-on:
 	${LN} -s ${JAVAJARDIR}/sigar.jar ${STAGEDIR}${DATADIR}/lib/sigar.jar
+
+post-install-SNAPPY-on:
+	${LN} -s ${JAVAJARDIR}/snappy-java.jar ${STAGEDIR}${DATADIR}/lib/snappy-java.jar
 
 .include <bsd.port.mk>

@@ -94,7 +94,6 @@
 %%DATADIR%%/lib/licenses/six-1.7.3.txt
 %%DATADIR%%/lib/licenses/slf4j-api-1.7.7.txt
 %%DATADIR%%/lib/licenses/snakeyaml-1.11.txt
-%%DATADIR%%/lib/licenses/snappy-java-1.1.1.7.txt
 %%DATADIR%%/lib/licenses/snowball-stemmer-1.3.0.581.1.txt
 %%DATADIR%%/lib/licenses/ST4-4.0.8.txt
 %%DATADIR%%/lib/licenses/stream-2.5.2.txt
@@ -114,7 +113,6 @@
 %%DATADIR%%/lib/six-1.7.3-py2.py3-none-any.zip
 %%DATADIR%%/lib/slf4j-api-1.7.7.jar
 %%DATADIR%%/lib/snakeyaml-1.11.jar
-%%DATADIR%%/lib/snappy-java-1.1.1.7.jar
 %%DATADIR%%/lib/snowball-stemmer-1.3.0.581.1.jar
 %%DATADIR%%/lib/ST4-4.0.8.jar
 %%DATADIR%%/lib/stream-2.5.2.jar
@@ -169,6 +167,7 @@
 %%ETCDIR%%/README.txt
 %%ETCDIR%%/triggers/README.txt
 %%SIGAR%%%%DATADIR%%/lib/sigar.jar
+%%SNAPPY%%%%DATADIR%%/lib/snappy-java.jar
 @sample %%ETCDIR%%/cassandra-env.sh.sample
 @sample %%ETCDIR%%/cassandra-jaas.config.sample
 @sample %%ETCDIR%%/cassandra-rackdc.properties.sample
