@@ -27,7 +27,7 @@ load_rc_config $name
 : ${cassandra_user:=cassandra}
 
 command=%%PREFIX%%/bin/cassandra
-command_args="-p /var/run/cassandra/cassandra.pid"
+command_args="-p /var/run/cassandra/cassandra.pid >/dev/null 2>/dev/null"
 start_precmd="${name}_prestart"
 
 procname=%%PREFIX%%/openjdk8/bin/java
