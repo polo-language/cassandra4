@@ -8,18 +8,20 @@
 
 . /etc/rc.subr
 
-name="cassandra"
-rcvar="cassandra_enable"
+name=cassandra
+rcvar=cassandra_enable
 
 load_rc_config $name
 
-: ${cassandra_enable="NO"}
+: ${cassandra_enable:=NO}
 : ${cassandra_pidfile=/var/run/cassandra.pid}
 
 command=%%PREFIX%%/bin/cassandra
 command_args="-p ${cassandra_pidfile}"
 
-procname=%%LOCALBASE%%/openjdk8/bin/java
+start_precmd="export JAVA_HOME=%%JAVA_HOME%%"
+
+procname=%%PREFIX%%/openjdk8/bin/java
 pidfile=${cassandra_pidfile}
 
 run_rc_command "$1"
