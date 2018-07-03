@@ -1,4 +1,4 @@
---- build.xml.orig	2018-02-14 20:43:59 UTC
+--- build.xml.orig	2018-07-03 14:37:13 UTC
 +++ build.xml
 @@ -23,6 +23,7 @@
      <property file="build.properties" />
@@ -17,7 +17,16 @@
      <property name="version.properties.dir"
                value="${build.src.resources}/org/apache/cassandra/config/" />
      <property name="final.name" value="${ant.project.name}-${version}"/>
-@@ -258,6 +259,7 @@
+@@ -117,6 +118,8 @@
+ 
+     <property name="ecj.version" value="4.4.2"/>
+ 
++    <property name="without.maven" value="true"/>
++
+     <condition property="maven-ant-tasks.jar.exists">
+       <available file="${build.dir}/maven-ant-tasks-${maven-ant-tasks.version}.jar" />
+     </condition>
+@@ -258,6 +261,7 @@
      <target name="gen-doc" depends="maven-ant-tasks-init" description="Generate documentation">
          <exec executable="make" osfamily="unix" dir="${doc.dir}">
              <arg value="html"/>
@@ -25,7 +34,7 @@
          </exec>
          <exec executable="cmd" osfamily="dos" dir="${doc.dir}">
              <arg value="/c"/>
-@@ -1018,6 +1020,88 @@
+@@ -1018,6 +1022,88 @@
        </jar>
      </target>
  

@@ -3,9 +3,12 @@
 PORTNAME=	cassandra
 PORTVERSION=	3.11.2
 CATEGORIES=	databases java
-MASTER_SITES=	APACHE/cassandra/${PORTVERSION}
+MASTER_SITES=	APACHE/cassandra/${PORTVERSION}:apache \
+		LOCAL:libs
 PKGNAMESUFFIX=	3
 DISTNAME=	apache-${PORTNAME}-${PORTVERSION}-src
+DISTFILES+=	${DISTNAME}.tar.gz:apache \
+		apache-${PORTNAME}-${PORTVERSION}-lib.tar.gz:libs
 
 MAINTAINER=	language.devel@gmail.com
 COMMENT=	Highly scalable distributed database
