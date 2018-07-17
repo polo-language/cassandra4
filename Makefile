@@ -82,6 +82,8 @@ post-build:
 .for f in ${CONFIG_FILES}
 	${MV} ${DIST_DIR}/conf/${f} ${DIST_DIR}/conf/${f}.sample
 .endfor
+	${RM} ${DIST_DIR}/lib/licenses/sigar*
+	${RMDIR} ${DIST_DIR}/lib/sigar-bin
 
 do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}
