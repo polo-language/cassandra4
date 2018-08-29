@@ -6,8 +6,7 @@
 # REQUIRE: LOGIN
 # KEYWORD: shutdown
 #
-# Be sure to configure full settings in %%ETCDIR%% and create
-# user ${cassandra_user} prior to enabling daemon.
+# Be sure to configure full settings in %%ETCDIR%% prior to enabling daemon.
 #
 # Add the following lines to /etc/rc.conf or /etc/.conf.local to
 # enable the Cassandra daemon:
