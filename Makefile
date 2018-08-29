@@ -37,6 +37,9 @@ USE_RC_SUBR=	cassandra
 REINPLACE_ARGS=	-i ''
 SUB_LIST=	JAVA_HOME=${JAVA_HOME}
 
+USERS=		cassandra
+GROUPS=		cassandra
+
 DATADIR=	${JAVASHAREDIR}/${PORTNAME}
 DIST_DIR=	${WRKSRC}/build/dist
 REPO_DIR=	${WRKDIR}/repository
