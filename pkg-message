@@ -7,8 +7,4 @@ if you get a "Local host name unknown" exception on startup
 	::1		localhost localhost.your.domain your-host-name
 	127.0.0.1	localhost localhost.your.domain your-host-name
 
-The default log directory is set to $CASSANDRA_HOME/logs on line 192
-of the cassandra script. If this path is non-existent or incorrect,
-be sure to temporarily enable modification and change it.
-
 ======================================================================
