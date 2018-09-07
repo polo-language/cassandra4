@@ -9,11 +9,13 @@
  
  # How often hints should be flushed from the internal buffers to disk.
  # Will *not* trigger fsync.
-@@ -188,12 +188,12 @@ partitioner: org.apache.cassandra.dht.Mu
+@@ -187,13 +187,13 @@ partitioner: org.apache.cassandra.dht.Mu
+ # will spread data evenly across them, subject to the granularity of
  # the configured compaction strategy.
  # If not set, the default directory is $CASSANDRA_HOME/data/data.
- # data_file_directories:
+-# data_file_directories:
 -#     - /var/lib/cassandra/data
++data_file_directories:
 +    - /var/db/cassandra/data
  
  # commit log.  when running on magnetic HDD, this should be a
