@@ -88,7 +88,6 @@
 %%DATADIR%%/lib/licenses/metrics-jvm-3.1.0.txt
 %%DATADIR%%/lib/licenses/metrics-logback-3.1.0.txt
 %%DATADIR%%/lib/licenses/netty-all-4.0.44.Final.txt
-%%DATADIR%%/lib/licenses/ohc-0.4.4.txt
 %%DATADIR%%/lib/licenses/reporter-config-base-3.0.3.txt
 %%DATADIR%%/lib/licenses/reporter-config3-3.0.3.txt
 %%DATADIR%%/lib/licenses/six-1.7.3.txt
@@ -106,8 +105,6 @@
 %%DATADIR%%/lib/metrics-jvm-3.1.0.jar
 %%DATADIR%%/lib/metrics-logback-3.1.0.jar
 %%DATADIR%%/lib/netty-all-4.0.44.Final.jar
-%%DATADIR%%/lib/ohc-core-0.4.4.jar
-%%DATADIR%%/lib/ohc-core-j8-0.4.4.jar
 %%DATADIR%%/lib/reporter-config-base-3.0.3.jar
 %%DATADIR%%/lib/reporter-config3-3.0.3.jar
 %%DATADIR%%/lib/six-1.7.3-py2.py3-none-any.zip
