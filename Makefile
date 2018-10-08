@@ -1,7 +1,7 @@
 # $FreeBSD$
 
 PORTNAME=	cassandra
-PORTVERSION=	3.11.2
+PORTVERSION=	3.11.3
 CATEGORIES=	databases java
 MASTER_SITES=	APACHE/cassandra/${PORTVERSION}:apache \
 		LOCAL:repo

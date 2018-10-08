@@ -1,4 +1,4 @@
---- build.xml.orig	2018-02-14 20:43:59 UTC
+--- build.xml.orig	2018-10-07 14:44:46 UTC
 +++ build.xml
 @@ -23,6 +23,7 @@
      <property file="build.properties" />
@@ -7,7 +7,7 @@
 +    <property name="pycmd" value="python"/>
  
      <!-- default version and SCM information -->
-     <property name="base.version" value="3.11.2"/>
+     <property name="base.version" value="3.11.3"/>
 @@ -75,14 +76,14 @@
      <condition property="version" value="${base.version}">
        <isset property="release"/>
@@ -17,7 +17,7 @@
      <property name="version.properties.dir"
                value="${build.src.resources}/org/apache/cassandra/config/" />
      <property name="final.name" value="${ant.project.name}-${version}"/>
-  
+ 
      <!-- details of what version of Maven ANT Tasks to fetch -->
      <property name="maven-ant-tasks.version" value="2.1.3" />
 -    <property name="maven-ant-tasks.local" value="${user.home}/.m2/repository/org/apache/maven/maven-ant-tasks"/>
@@ -54,7 +54,7 @@
        <macrodef name="install">
          <attribute name="pomFile"/>
          <attribute name="file"/>
-@@ -679,16 +676,14 @@
+@@ -682,16 +679,14 @@
                               filesetId="build-dependency-jars"
                               cacheDependencyRefs="true"
                               dependencyRefsBuildFile="${build.dir}/build-dependencies.xml">
@@ -73,7 +73,7 @@
        </artifact:dependencies>
        <copy todir="${build.dir.lib}/jars">
            <fileset refid="build-dependency-jars"/>
-@@ -701,7 +696,7 @@
+@@ -704,7 +699,7 @@
        <!-- code coverage tools -->
        <artifact:dependencies pomRefId="coverage-deps-pom"
                               filesetId="coverage-dependency-jars">
@@ -82,9 +82,9 @@
        </artifact:dependencies>
        <copy todir="${build.dir.lib}/jars">
            <fileset refid="coverage-dependency-jars"/>
-@@ -722,8 +717,7 @@
-                              sourcesFilesetId="test-dependency-sources" 
-                              cacheDependencyRefs="true" 
+@@ -725,8 +720,7 @@
+                              sourcesFilesetId="test-dependency-sources"
+                              cacheDependencyRefs="true"
                               dependencyRefsBuildFile="${build.dir}/test-dependencies.xml">
 -        <remoteRepository refid="apache"/>
 -        <remoteRepository refid="central"/>
@@ -92,7 +92,7 @@
        </artifact:dependencies>
        <copy todir="${test.lib}/jars">
          <fileset refid="test-dependency-jars"/>
-@@ -1018,6 +1012,88 @@
+@@ -1021,6 +1015,88 @@
        </jar>
      </target>
  
