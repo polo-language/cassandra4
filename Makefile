@@ -1,7 +1,8 @@
-# $FreeBSD: head/databases/cassandra3/Makefile 493047 2019-02-16 17:11:03Z antoine $
+# $FreeBSD: head/databases/cassandra3/Makefile 507372 2019-07-26 20:46:53Z gerald $
 
 PORTNAME=	cassandra
 DISTVERSION=	3.11.4
+PORTREVISION=	1
 CATEGORIES=	databases java
 MASTER_SITES=	APACHE/cassandra/${PORTVERSION}:apache \
 		LOCAL/yuri:repo
