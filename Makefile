@@ -1,14 +1,14 @@
 # $FreeBSD: head/databases/cassandra3/Makefile 520356 2019-12-18 02:27:35Z yuri $
 
 PORTNAME=	cassandra
-DISTVERSION=	3.11.6
+DISTVERSION=	4.0-alpha3
 CATEGORIES=	databases java
-MASTER_SITES=	APACHE/cassandra/${PORTVERSION}:apache \
-		LOCAL/yuri:repo
-PKGNAMESUFFIX=	3
-DISTNAME=	apache-${PORTNAME}-${PORTVERSION}-src
+MASTER_SITES=	APACHE/cassandra/${DISTVERSION}:apache # \
+		# LOCAL/yuri:repo
+PKGNAMESUFFIX=	4
+DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
 DISTFILES=	${DISTNAME}.tar.gz:apache \
-		apache-${PORTNAME}-3.11.4-repo.tar.gz:repo
+		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz:repo
 
 MAINTAINER=	language.devel@gmail.com
 COMMENT=	Highly scalable distributed database
@@ -43,12 +43,16 @@ CONFIG_FILES=	cassandra-env.sh \
 		cassandra.yaml \
 		commitlog_archiving.properties \
 		hotspot_compiler \
-		jvm.options \
 		logback-tools.xml \
-		logback.xml
+		logback.xml \
+		jvm8-clients.options \
+		jvm8-server.options \
+		jvm11-clients.options \
+		jvm11-server.options \
+		jvm-clients.options \
+		jvm-server.options
 
 SCRIPT_FILES=	cassandra \
-		cqlsh \
 		nodetool \
 		sstableloader \
 		sstablescrub \
@@ -87,7 +91,6 @@ post-build:
 	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${DIST_DIR}/bin/cassandra.in.sh
 	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${DIST_DIR}/conf/cassandra-env.sh
 	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/conf|${ETCDIR}|' ${DIST_DIR}/bin/cassandra.in.sh
-	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/conf|${ETCDIR}|' ${DIST_DIR}/conf/cassandra-env.sh
 .for f in ${CONFIG_FILES}
 	@${MV} ${DIST_DIR}/conf/${f} ${DIST_DIR}/conf/${f}.sample
 .endfor
@@ -99,7 +102,7 @@ do-install:
 .for f in CHANGES LICENSE NEWS NOTICE
 	cd ${DIST_DIR} && ${INSTALL_DATA} ${f}.txt ${STAGEDIR}${DATADIR}/
 .endfor
-.for d in interface lib pylib tools
+.for d in lib pylib tools
 	cd ${DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DATADIR}/ "! -path '*/bin/*'"
 .endfor
 	${MKDIR} ${STAGEDIR}${ETCDIR}
@@ -111,6 +114,7 @@ do-install:
 .for f in ${SCRIPT_FILES}
 	${RLN} ${STAGEDIR}${DATADIR}/bin/${f} ${STAGEDIR}${PREFIX}/bin/${f}
 .endfor
+	${RLN} ${STAGEDIR}${DATADIR}/bin/cqlsh ${STAGEDIR}${PREFIX}/bin/cqlsh
 	${LN} -s ${JAVAJARDIR}/snappy-java.jar ${STAGEDIR}${DATADIR}/lib/snappy-java.jar
 
 post-install-DOCS-on:
