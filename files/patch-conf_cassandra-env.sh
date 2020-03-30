@@ -1,6 +1,6 @@
---- conf/cassandra-env.sh.orig	2020-02-10 22:55:14 UTC
+--- conf/cassandra-env.sh.orig	2020-01-30 17:34:31 UTC
 +++ conf/cassandra-env.sh
-@@ -123,7 +123,7 @@ esac
+@@ -88,7 +88,7 @@ calculate_heap_sizes()
  
  # Sets the path where logback and GC logs are written.
  if [ "x$CASSANDRA_LOG_DIR" = "x" ] ; then

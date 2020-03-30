@@ -1,4 +1,4 @@
---- bin/cassandra.orig	2019-12-13 12:50:29 UTC
+--- bin/cassandra.orig	2020-01-30 17:34:31 UTC
 +++ bin/cassandra
 @@ -30,7 +30,7 @@
  #   JVM_OPTS -- Additional arguments to the JVM for heap size, etc
@@ -9,7 +9,7 @@
  #
  # As a convenience, a fragment of shell is sourced in order to set one or
  # more of these variables. This so-called `include' can be placed in a 
-@@ -127,7 +127,7 @@ if [ -f "$CASSANDRA_CONF/cassandra-env.sh" ]; then
+@@ -109,7 +109,7 @@ if [ -f "$CASSANDRA_CONF/cassandra-env.sh" ]; then
  fi
  
  if [ -z "$CASSANDRA_LOG_DIR" ]; then
