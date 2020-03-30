@@ -1,4 +1,4 @@
-# $FreeBSD: head/databases/cassandra3/Makefile 520356 2019-12-18 02:27:35Z yuri $
+# $FreeBSD$
 
 PORTNAME=	cassandra
 DISTVERSION=	4.0-alpha3
