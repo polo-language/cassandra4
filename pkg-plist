@@ -164,10 +164,12 @@
 %%DATADIR%%/pylib/cqlshlib/wcwidth.py
 %%DATADIR%%/pylib/requirements.txt
 %%DATADIR%%/pylib/setup.py
+%%DATADIR%%/tools/bin/auditlogviewer
 %%DATADIR%%/tools/bin/cassandra-stress
 %%DATADIR%%/tools/bin/cassandra-stressd
 %%DATADIR%%/tools/bin/cassandra.in.sh
 %%DATADIR%%/tools/bin/compaction-stress
+%%DATADIR%%/tools/bin/fqltool
 %%DATADIR%%/tools/bin/sstabledump
 %%DATADIR%%/tools/bin/sstableexpiredblockers
 %%DATADIR%%/tools/bin/sstablelevelreset
@@ -178,6 +180,8 @@
 %%DATADIR%%/tools/cqlstress-counter-example.yaml
 %%DATADIR%%/tools/cqlstress-example.yaml
 %%DATADIR%%/tools/cqlstress-insanity-example.yaml
+%%DATADIR%%/tools/cqlstress-lwt-example.yaml
+%%DATADIR%%/tools/lib/fqltool.jar
 %%DATADIR%%/tools/lib/stress.jar
 %%ETCDIR%%/metrics-reporter-config-sample.yaml
 %%ETCDIR%%/README.txt
