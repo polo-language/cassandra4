@@ -93,7 +93,6 @@
 %%DATADIR%%/lib/licenses/metrics-core-3.1.5.txt
 %%DATADIR%%/lib/licenses/metrics-jvm-3.1.5.txt
 %%DATADIR%%/lib/licenses/metrics-logback-3.1.5.txt
-%%DATADIR%%/lib/licenses/netty-4.1.37.txt
 %%DATADIR%%/lib/licenses/netty-tcnative-2.0.25.txt
 %%DATADIR%%/lib/licenses/psjava-0.1.19.txt
 %%DATADIR%%/lib/licenses/reporter-config-base-3.0.3.txt
@@ -113,7 +112,7 @@
 %%DATADIR%%/lib/metrics-jvm-3.1.5.jar
 %%DATADIR%%/lib/metrics-logback-3.1.5.jar
 %%DATADIR%%/lib/mxdump-0.14.jar
-%%DATADIR%%/lib/netty-all-4.1.37.Final.jar
+%%DATADIR%%/lib/netty.jar
 %%DATADIR%%/lib/netty-tcnative-boringssl-static-2.0.25.Final.jar
 %%DATADIR%%/lib/psjava-0.1.19.jar
 %%DATADIR%%/lib/reporter-config-base-3.0.3.jar

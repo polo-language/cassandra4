@@ -16,7 +16,8 @@ COMMENT=	Highly scalable distributed database
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
-RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java
+RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java \
+		netty>0:java/netty
 
 USES=		python:2.7
 USE_JAVA=	yes
@@ -116,6 +117,9 @@ do-install:
 .endfor
 	${RLN} ${STAGEDIR}${DATADIR}/bin/cqlsh ${STAGEDIR}${PREFIX}/bin/cqlsh
 	${LN} -s ${JAVAJARDIR}/snappy-java.jar ${STAGEDIR}${DATADIR}/lib/snappy-java.jar
+
+post-install:
+	${LN} -s ${JAVAJARDIR}/netty.jar ${STAGEDIR}${DATADIR}/lib/netty.jar
 
 post-install-DOCS-on:
 	${MKDIR} ${STAGEDIR}${DOCSDIR}

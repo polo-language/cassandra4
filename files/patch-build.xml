@@ -93,7 +93,7 @@
        </artifact:dependencies>
        <copy todir="${test.lib}/jars">
          <fileset refid="test-dependency-jars"/>
-@@ -1193,6 +1188,84 @@
+@@ -1193,6 +1188,86 @@
        </copy>
      </target>
  
@@ -106,8 +106,10 @@
 +          <exclude name="sigar*.jar"/>
 +          <exclude name="sigar-bin/*"/>
 +          <exclude name="snappy*.jar"/>
++          <exclude name="netty-all*.jar"/>
 +          <exclude name="ohc*.jar"/>
 +          <exclude name="licenses/snappy*.txt"/>
++          <exclude name="licenses/netty-4*.txt"/>
 +          <exclude name="licenses/ohc*.txt"/>
 +        </fileset>
 +        <fileset dir="${build.dir}">
@@ -178,7 +180,7 @@
      <!-- creates release tarballs -->
      <target name="artifacts" depends="_artifacts-init"
              description="Create Cassandra release artifacts">
-@@ -1895,8 +1968,8 @@
+@@ -1895,8 +1970,8 @@
      <exec executable="nproc" outputproperty="cores.count" os="Linux,SunOS,Solaris" failifexecutionfails="false">
        <arg value="--all"/>
      </exec>
@@ -189,7 +191,7 @@
        <arg value="-n"/>
        <arg value="hw.ncpu"/>
      </exec>
-@@ -1916,6 +1989,11 @@
+@@ -1916,6 +1991,11 @@
      <exec executable="sysctl" outputproperty="mem.size" os="Mac,Mac OS X,Darwin" failifexecutionfails="false">
        <arg value="-n"/>
        <arg value="hw.memsize"/>
