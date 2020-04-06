@@ -3,12 +3,16 @@
 PORTNAME=	cassandra
 DISTVERSION=	4.0-alpha3
 CATEGORIES=	databases java
-MASTER_SITES=	APACHE/cassandra/${DISTVERSION}:apache # \
+MASTER_SITES=	APACHE/cassandra/${DISTVERSION}:apache \
+		https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.4-9/:maven # \
 		# LOCAL/yuri:repo
 PKGNAMESUFFIX=	4
 DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
 DISTFILES=	${DISTNAME}.tar.gz:apache \
+		zstd-jni-1.4.4-9-freebsd_amd64.jar:maven \
 		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz:repo
+EXTRACT_ONLY=	${DISTNAME}.tar.gz \
+		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz
 
 MAINTAINER=	language.devel@gmail.com
 COMMENT=	Highly scalable distributed database
@@ -120,6 +124,7 @@ do-install:
 
 post-install:
 	${LN} -s ${JAVAJARDIR}/netty.jar ${STAGEDIR}${DATADIR}/lib/netty.jar
+	${CP} ${DISTDIR}/zstd-jni-1.4.4-9-freebsd_amd64.jar ${STAGEDIR}${DATADIR}/lib/
 
 post-install-DOCS-on:
 	${MKDIR} ${STAGEDIR}${DOCSDIR}

@@ -103,7 +103,6 @@
 %%DATADIR%%/lib/licenses/snowball-stemmer-1.3.0.581.1.txt
 %%DATADIR%%/lib/licenses/ST4-4.0.8.txt
 %%DATADIR%%/lib/licenses/stream-2.5.2.txt
-%%DATADIR%%/lib/licenses/zstd-jni-1.3.8-3.txt
 %%DATADIR%%/lib/log4j-over-slf4j-1.7.25.jar
 %%DATADIR%%/lib/logback-classic-1.2.3.jar
 %%DATADIR%%/lib/logback-core-1.2.3.jar
@@ -128,7 +127,7 @@
 %%DATADIR%%/lib/snowball-stemmer-1.3.0.581.1.jar
 %%DATADIR%%/lib/ST4-4.0.8.jar
 %%DATADIR%%/lib/stream-2.5.2.jar
-%%DATADIR%%/lib/zstd-jni-1.3.8-5.jar
+%%DATADIR%%/lib/zstd-jni-1.4.4-9-freebsd_amd64.jar
 %%DATADIR%%/LICENSE.txt
 %%DATADIR%%/NEWS.txt
 %%DATADIR%%/NOTICE.txt
