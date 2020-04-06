@@ -34,7 +34,7 @@ USERS=		cassandra
 GROUPS=		cassandra
 
 DATADIR=	${JAVASHAREDIR}/${PORTNAME}
-DIST_DIR=	${WRKSRC}/build/dist
+BUILD_DIST_DIR=	${WRKSRC}/build/dist
 REPO_DIR=	${WRKDIR}/repository
 
 CONFIG_FILES=	cassandra-env.sh \
@@ -86,32 +86,32 @@ do-build-DOCS-off:
 
 post-build:
 .for f in ${SCRIPT_FILES}
-	@${REINPLACE_CMD} -e 's|/usr/share/cassandra|${DATADIR}/bin|' ${DIST_DIR}/bin/${f}
+	@${REINPLACE_CMD} -e 's|/usr/share/cassandra|${DATADIR}/bin|' ${BUILD_DIST_DIR}/bin/${f}
 .endfor
-	@${REINPLACE_CMD} -e 's|\`dirname "\$$\0"\`/..|${DATADIR}|' ${DIST_DIR}/bin/cassandra.in.sh
-	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${DIST_DIR}/bin/cassandra.in.sh
-	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${DIST_DIR}/conf/cassandra-env.sh
-	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/conf|${ETCDIR}|' ${DIST_DIR}/bin/cassandra.in.sh
+	@${REINPLACE_CMD} -e 's|\`dirname "\$$\0"\`/..|${DATADIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
+	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
+	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${BUILD_DIST_DIR}/conf/cassandra-env.sh
+	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/conf|${ETCDIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
 .for f in ${CONFIG_FILES}
-	@${MV} ${DIST_DIR}/conf/${f} ${DIST_DIR}/conf/${f}.sample
+	@${MV} ${BUILD_DIST_DIR}/conf/${f} ${BUILD_DIST_DIR}/conf/${f}.sample
 .endfor
-	@${RM} ${DIST_DIR}/lib/licenses/sigar*
-	@${RMDIR} ${DIST_DIR}/lib/sigar-bin
+	@${RM} ${BUILD_DIST_DIR}/lib/licenses/sigar*
+	@${RMDIR} ${BUILD_DIST_DIR}/lib/sigar-bin
 
 do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}
 .for f in CHANGES LICENSE NEWS NOTICE
-	cd ${DIST_DIR} && ${INSTALL_DATA} ${f}.txt ${STAGEDIR}${DATADIR}/
+	cd ${BUILD_DIST_DIR} && ${INSTALL_DATA} ${f}.txt ${STAGEDIR}${DATADIR}/
 .endfor
 .for d in lib pylib tools
-	cd ${DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DATADIR}/ "! -path '*/bin/*'"
+	cd ${BUILD_DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DATADIR}/ "! -path '*/bin/*'"
 .endfor
 	${MKDIR} ${STAGEDIR}${ETCDIR}
-	cd ${DIST_DIR}/conf && ${COPYTREE_SHARE} . ${STAGEDIR}${ETCDIR}/
-	cd ${DIST_DIR} && ${COPYTREE_BIN} bin ${STAGEDIR}${DATADIR}
-	cd ${DIST_DIR} && ${INSTALL_DATA} bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/bin/
-	cd ${DIST_DIR} && ${COPYTREE_BIN} tools/bin ${STAGEDIR}${DATADIR}/
-	cd ${DIST_DIR} && ${INSTALL_DATA} tools/bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/tools/bin/
+	cd ${BUILD_DIST_DIR}/conf && ${COPYTREE_SHARE} . ${STAGEDIR}${ETCDIR}/
+	cd ${BUILD_DIST_DIR} && ${COPYTREE_BIN} bin ${STAGEDIR}${DATADIR}
+	cd ${BUILD_DIST_DIR} && ${INSTALL_DATA} bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/bin/
+	cd ${BUILD_DIST_DIR} && ${COPYTREE_BIN} tools/bin ${STAGEDIR}${DATADIR}/
+	cd ${BUILD_DIST_DIR} && ${INSTALL_DATA} tools/bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/tools/bin/
 .for f in ${SCRIPT_FILES}
 	${RLN} ${STAGEDIR}${DATADIR}/bin/${f} ${STAGEDIR}${PREFIX}/bin/${f}
 .endfor
@@ -124,7 +124,7 @@ post-install:
 post-install-DOCS-on:
 	${MKDIR} ${STAGEDIR}${DOCSDIR}
 .for d in doc javadoc
-	cd ${DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DOCSDIR}/
+	cd ${BUILD_DIST_DIR} && ${COPYTREE_SHARE} ${d} ${STAGEDIR}${DOCSDIR}/
 .endfor
 
 post-install-SIGAR-on:
