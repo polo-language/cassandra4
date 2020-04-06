@@ -25,6 +25,15 @@
      <property name="maven-ant-tasks.url"
                value="https://repo.maven.apache.org/maven2/org/apache/maven/maven-ant-tasks" />
      <!-- details of how and which Maven repository we publish to -->
+@@ -231,7 +232,7 @@
+     </path>
+     <path id="cassandra.classpath.test">
+         <file file="${build.dir}/${final.name}.jar"/> <!-- we need the jar for tests and benchmarks (multi-version jar) -->
+-        <fileset dir="${build.lib}">
++        <fileset dir="${stagedlib}">
+             <include name="**/*.jar" />
+             <exclude name="**/*-sources.jar"/>
+             <exclude name="**/ant-*.jar"/>
 @@ -369,8 +370,7 @@
          <artifact:dependencies pathId="wikitext.classpath">
              <dependency groupId="com.datastax.wikitext" artifactId="wikitext-core-ant" version="1.3"/>

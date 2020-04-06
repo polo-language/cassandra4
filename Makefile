@@ -27,6 +27,7 @@ USES=		python:3.7
 USE_JAVA=	yes
 USE_ANT=	yes
 USE_RC_SUBR=	cassandra
+TEST_TARGET=	test
 
 JAVA_VERSION=	1.8
 JAVA_VENDOR=	openjdk
@@ -101,6 +102,7 @@ post-build:
 .endfor
 	@${RM} ${BUILD_DIST_DIR}/lib/licenses/sigar*
 	@${RMDIR} ${BUILD_DIST_DIR}/lib/sigar-bin
+	@${RM} ${BUILD_DIST_DIR}/lib/zstd-jni*
 
 do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}
@@ -121,6 +123,9 @@ do-install:
 .endfor
 	${RLN} ${STAGEDIR}${DATADIR}/bin/cqlsh ${STAGEDIR}${PREFIX}/bin/cqlsh
 	${LN} -s ${JAVAJARDIR}/snappy-java.jar ${STAGEDIR}${DATADIR}/lib/snappy-java.jar
+
+do-test:
+	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} -Dstagedlib=${STAGEDIR}${DATADIR}/lib test
 
 .include <bsd.port.pre.mk>
 
