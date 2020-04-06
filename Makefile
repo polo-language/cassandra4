@@ -122,9 +122,13 @@ do-install:
 	${RLN} ${STAGEDIR}${DATADIR}/bin/cqlsh ${STAGEDIR}${PREFIX}/bin/cqlsh
 	${LN} -s ${JAVAJARDIR}/snappy-java.jar ${STAGEDIR}${DATADIR}/lib/snappy-java.jar
 
+.include <bsd.port.pre.mk>
+
 post-install:
 	${LN} -s ${JAVAJARDIR}/netty.jar ${STAGEDIR}${DATADIR}/lib/netty.jar
+.if ${ARCH} == amd64
 	${CP} ${DISTDIR}/zstd-jni-1.4.4-9-freebsd_amd64.jar ${STAGEDIR}${DATADIR}/lib/
+.endif
 
 post-install-DOCS-on:
 	${MKDIR} ${STAGEDIR}${DOCSDIR}
@@ -135,4 +139,4 @@ post-install-DOCS-on:
 post-install-SIGAR-on:
 	${LN} -s ${JAVAJARDIR}/sigar.jar ${STAGEDIR}${DATADIR}/lib/sigar.jar
 
-.include <bsd.port.mk>
+.include <bsd.port.post.mk>
