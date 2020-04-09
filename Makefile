@@ -103,6 +103,7 @@ post-build:
 	@${RM} ${BUILD_DIST_DIR}/lib/licenses/sigar*
 	@${RMDIR} ${BUILD_DIST_DIR}/lib/sigar-bin
 	@${RM} ${BUILD_DIST_DIR}/lib/zstd-jni*
+	@${RM} ${BUILD_DIST_DIR}/lib/licenses/zstd-jni*
 
 do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}
@@ -128,6 +129,12 @@ do-test:
 	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} -Dstagedlib=${STAGEDIR}${DATADIR}/lib test
 
 .include <bsd.port.pre.mk>
+
+.if ${ARCH} == amd64
+PLIST_SUB+=		AMD64ONLY=""
+.else
+PLIST_SUB+=		AMD64ONLY="@comment "
+.endif
 
 post-install:
 	${LN} -s ${JAVAJARDIR}/netty.jar ${STAGEDIR}${DATADIR}/lib/netty.jar
