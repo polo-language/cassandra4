@@ -3,15 +3,13 @@
 PORTNAME=	cassandra
 DISTVERSION=	4.0-alpha3
 CATEGORIES=	databases java
-MASTER_SITES=	APACHE/cassandra/${DISTVERSION}:apache \
-		https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.4-9/:maven # \
+MASTER_SITES=	https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.4-9/:maven # \
 		# LOCAL/tbd:repo
 PKGNAMESUFFIX=	4
 DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
-DISTFILES=	${DISTNAME}.tar.gz:apache \
-		zstd-jni-1.4.4-9-freebsd_amd64.jar:maven \
+DISTFILES=	zstd-jni-1.4.4-9-freebsd_amd64.jar:maven \
 		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz:repo
-EXTRACT_ONLY=	${DISTNAME}.tar.gz \
+EXTRACT_ONLY=	${GH_ACCOUNT}-${GH_PROJECT}-${DISTVERSION}-${GH_TAGNAME}_GH0.tar.gz \
 		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz
 
 MAINTAINER=	language.devel@gmail.com
@@ -27,6 +25,12 @@ USES=		python:3.7
 USE_JAVA=	yes
 USE_ANT=	yes
 USE_RC_SUBR=	cassandra
+
+USE_GITHUB=	yes
+GH_ACCOUNT=	apache
+GH_PROJECT=	cassandra
+GH_TAGNAME=	d00c004cc10986fc41c2070f9c5d0007e03a45c3
+
 TEST_TARGET=	test
 
 JAVA_VERSION=	1.8
