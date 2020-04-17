@@ -29,7 +29,7 @@ USE_ANT=	yes
 USE_RC_SUBR=	cassandra
 TEST_TARGET=	test
 
-JAVA_VERSION=	1.8
+JAVA_VERSION=	8 11
 JAVA_VENDOR=	openjdk
 
 REINPLACE_ARGS=	-i ''
@@ -84,10 +84,10 @@ do-build:
 	@${DO_NADA} # Do nothing: Prevent USE_ANT from running a default build target.
 
 do-build-DOCS-on:
-	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} -Dpycmd=${PYTHON_CMD} -Dpyver=${PYTHON_VER} freebsd-stage-doc
+	cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} ${USEJDK11} -Dpycmd=${PYTHON_CMD} -Dpyver=${PYTHON_VER} freebsd-stage-doc
 
 do-build-DOCS-off:
-	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} freebsd-stage
+	cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} ${USEJDK11} freebsd-stage
 
 post-build:
 .for f in ${SCRIPT_FILES}
@@ -126,9 +126,13 @@ do-install:
 	${LN} -s ${JAVAJARDIR}/snappy-java.jar ${STAGEDIR}${DATADIR}/lib/snappy-java.jar
 
 do-test:
-	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} -Dstagedlib=${STAGEDIR}${DATADIR}/lib test
+	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} ${USEJDK11} -Dstagedlib=${STAGEDIR}${DATADIR}/lib test
 
 .include <bsd.port.pre.mk>
+
+.if ${JAVA_PORT_VERSION} == 11
+USEJDK11=	-Duse.jdk11=true
+.endif
 
 .if ${ARCH} == amd64
 PLIST_SUB+=		AMD64ONLY=""

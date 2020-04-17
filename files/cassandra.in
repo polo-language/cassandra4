@@ -29,7 +29,7 @@ command=%%PREFIX%%/bin/cassandra
 command_args="-p /var/run/cassandra/cassandra.pid >/dev/null 2>/dev/null"
 start_precmd="${name}_prestart"
 
-procname=%%PREFIX%%/openjdk8/bin/java
+procname=%%JAVA_HOME%%/bin/java
 pidfile=/var/run/cassandra/cassandra.pid
 
 cassandra_prestart()
