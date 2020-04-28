@@ -13,11 +13,11 @@
 %%DATADIR%%/CHANGES.txt
 %%DATADIR%%/lib/airline-0.8.jar
 %%DATADIR%%/lib/antlr-runtime-3.5.2.jar
-%%DATADIR%%/lib/apache-cassandra-4.0-alpha3.jar
+%%DATADIR%%/lib/apache-cassandra-%%DISTVERSION%%.jar
 %%DATADIR%%/lib/asm-7.1.jar
 %%DATADIR%%/lib/caffeine-2.3.5.jar
 %%DATADIR%%/lib/cassandra-driver-core-3.6.0-shaded.jar
-%%DATADIR%%/lib/cassandra-driver-internal-only-3.12.0.post0-5838e2fd.zip
+%%DATADIR%%/lib/cassandra-driver-internal-only-3.21.0.post0-05fb2c8d.zip
 %%DATADIR%%/lib/chronicle-bytes-1.16.3.jar
 %%DATADIR%%/lib/chronicle-core-1.16.4.jar
 %%DATADIR%%/lib/chronicle-queue-4.16.3.jar
@@ -30,10 +30,11 @@
 %%DATADIR%%/lib/concurrent-trees-2.4.0.jar
 %%DATADIR%%/lib/ecj-4.6.1.jar
 %%DATADIR%%/lib/futures-2.1.6-py2.py3-none-any.zip
+%%DATADIR%%/lib/geomet-0.1.0.zip
 %%DATADIR%%/lib/guava-27.0-jre.jar
 %%DATADIR%%/lib/HdrHistogram-2.1.9.jar
 %%DATADIR%%/lib/high-scale-lib-1.0.6.jar
-%%DATADIR%%/lib/hppc-0.5.4.jar
+%%DATADIR%%/lib/hppc-0.8.1.jar
 %%DATADIR%%/lib/j2objc-annotations-1.3.jar
 %%DATADIR%%/lib/jackson-annotations-2.9.5.jar
 %%DATADIR%%/lib/jackson-core-2.9.5.jar
@@ -67,6 +68,7 @@
 %%DATADIR%%/lib/licenses/concurrent-trees-2.4.0.txt
 %%DATADIR%%/lib/licenses/ecj-4.6.1.txt
 %%DATADIR%%/lib/licenses/futures-2.1.6.txt
+%%DATADIR%%/lib/licenses/geom-0.1.0.txt
 %%DATADIR%%/lib/licenses/guava-23.3-jre.txt
 %%DATADIR%%/lib/licenses/hdrhistogram-2.1.9.txt
 %%DATADIR%%/lib/licenses/high-scale-lib-1.0.6.txt
@@ -106,7 +108,7 @@
 %%DATADIR%%/lib/log4j-over-slf4j-1.7.25.jar
 %%DATADIR%%/lib/logback-classic-1.2.3.jar
 %%DATADIR%%/lib/logback-core-1.2.3.jar
-%%DATADIR%%/lib/lz4-java-1.4.0.jar
+%%DATADIR%%/lib/lz4-java-1.7.1.jar
 %%DATADIR%%/lib/metrics-core-3.1.5.jar
 %%DATADIR%%/lib/metrics-jvm-3.1.5.jar
 %%DATADIR%%/lib/metrics-logback-3.1.5.jar
@@ -116,7 +118,7 @@
 %%DATADIR%%/lib/psjava-0.1.19.jar
 %%DATADIR%%/lib/reporter-config-base-3.0.3.jar
 %%DATADIR%%/lib/reporter-config3-3.0.3.jar
-%%DATADIR%%/lib/six-1.7.3-py2.py3-none-any.zip
+%%DATADIR%%/lib/six-1.12.0-py2.py3-none-any.zip
 %%DATADIR%%/lib/sjk-cli-0.14.jar
 %%DATADIR%%/lib/sjk-core-0.14.jar
 %%DATADIR%%/lib/sjk-json-0.14.jar
@@ -149,12 +151,10 @@
 %%DATADIR%%/pylib/cqlshlib/test/basecase.py
 %%DATADIR%%/pylib/cqlshlib/test/cassconnect.py
 %%DATADIR%%/pylib/cqlshlib/test/run_cqlsh.py
+%%DATADIR%%/pylib/cqlshlib/test/test_copyutil.py
 %%DATADIR%%/pylib/cqlshlib/test/test_cql_parsing.py
-%%DATADIR%%/pylib/cqlshlib/test/test_cqlsh_commands.py
 %%DATADIR%%/pylib/cqlshlib/test/test_cqlsh_completion.py
-%%DATADIR%%/pylib/cqlshlib/test/test_cqlsh_invocation.py
 %%DATADIR%%/pylib/cqlshlib/test/test_cqlsh_output.py
-%%DATADIR%%/pylib/cqlshlib/test/test_cqlsh_parsing.py
 %%DATADIR%%/pylib/cqlshlib/test/test_keyspace_init.cql
 %%DATADIR%%/pylib/cqlshlib/test/winpty.py
 %%DATADIR%%/pylib/cqlshlib/tracing.py
