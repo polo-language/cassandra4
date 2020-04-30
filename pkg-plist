@@ -160,6 +160,9 @@
 %%DATADIR%%/pylib/cqlshlib/tracing.py
 %%DATADIR%%/pylib/cqlshlib/util.py
 %%DATADIR%%/pylib/cqlshlib/wcwidth.py
+%%DATADIR%%/pylib/Dockerfile.ubuntu.py2
+%%DATADIR%%/pylib/Dockerfile.ubuntu.py3
+%%DATADIR%%/pylib/README.asc
 %%DATADIR%%/pylib/requirements.txt
 %%DATADIR%%/pylib/setup.py
 %%DATADIR%%/tools/bin/auditlogviewer
