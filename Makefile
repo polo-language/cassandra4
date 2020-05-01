@@ -5,7 +5,7 @@ DISTVERSION=	4.0-alpha4
 CATEGORIES=	databases java
 MASTER_SITES=	APACHE/cassandra/${DISTVERSION}:apache \
 		https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.4-9/:maven \
-		LOCAL/tbd:repo
+		LOCAL/pi:repo
 PKGNAMESUFFIX=	4
 DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
 DISTFILES=	${DISTNAME}.tar.gz:apache \
