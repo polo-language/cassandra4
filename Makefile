@@ -1,4 +1,4 @@
-# $FreeBSD$
+# $FreeBSD: head/databases/cassandra4/Makefile 533701 2020-05-02 19:48:32Z pi $
 
 PORTNAME=	cassandra
 DISTVERSION=	4.0-alpha4
@@ -28,6 +28,8 @@ USE_JAVA=	yes
 USE_ANT=	yes
 USE_RC_SUBR=	cassandra
 TEST_TARGET=	test
+
+CONFLICTS=	cassandra3
 
 JAVA_VERSION=	8 11
 JAVA_VENDOR=	openjdk
