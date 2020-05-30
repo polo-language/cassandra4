@@ -126,6 +126,7 @@ do-install:
 .endfor
 	${RLN} ${STAGEDIR}${DATADIR}/bin/cqlsh ${STAGEDIR}${PREFIX}/bin/cqlsh
 	${LN} -s ${JAVAJARDIR}/snappy-java.jar ${STAGEDIR}${DATADIR}/lib/snappy-java.jar
+	${LN} -s ${JAVAJARDIR}/ohc-core.jar ${STAGEDIR}${DATADIR}/lib/ohc-core.jar
 
 do-test:
 	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} ${USEJDK11} -Dstagedlib=${STAGEDIR}${DATADIR}/lib test

@@ -115,6 +115,7 @@
 %%DATADIR%%/lib/mxdump-0.14.jar
 %%DATADIR%%/lib/netty.jar
 %%DATADIR%%/lib/netty-tcnative-boringssl-static-2.0.25.Final.jar
+%%DATADIR%%/lib/ohc-core.jar
 %%DATADIR%%/lib/psjava-0.1.19.jar
 %%DATADIR%%/lib/reporter-config-base-3.0.3.jar
 %%DATADIR%%/lib/reporter-config3-3.0.3.jar
