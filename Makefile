@@ -21,8 +21,10 @@ COMMENT=	Highly scalable distributed database
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
-RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java \
+B_R_DEPENDS=	snappyjava>=0:archivers/snappy-java \
 		netty>0:java/netty
+BUILD_DEPENDS=	${B_R_DEPENDS}
+RUN_DEPENDS=	${B_R_DEPENDS}
 
 USES=		python:3.7
 USE_JAVA=	yes
