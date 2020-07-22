@@ -9,8 +9,7 @@ MASTER_SITES=	APACHE/cassandra/${DISTVERSION}:apache \
 PKGNAMESUFFIX=	4
 DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
 DISTFILES=	${DISTNAME}.tar.gz:apache \
-		zstd-jni-${MASTER_SITES:M*\:maven:H:T}-freebsd_amd64.jar:maven \
-		zstd-jni-${MASTER_SITES:M*\:maven:H:T}-freebsd_i386.jar:maven \
+		zstd-jni-${MASTER_SITES:M*\:maven:H:T}-freebsd_${ARCH}.jar:maven \
 		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz:repo
 EXTRACT_ONLY=	${DISTNAME}.tar.gz \
 		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz
@@ -150,10 +149,8 @@ PLIST_SUB+=		I386ONLY="@comment "
 
 post-install:
 	${LN} -s ${JAVAJARDIR}/netty.jar ${STAGEDIR}${DATADIR}/lib/netty.jar
-.if ${ARCH} == amd64
-	${CP} ${DISTDIR}/zstd-jni-${ZSTDJNI_VERSION}-freebsd_amd64.jar ${STAGEDIR}${DATADIR}/lib/
-.elif ${ARCH} == i386
-	${CP} ${DISTDIR}/zstd-jni-${ZSTDJNI_VERSION}-freebsd_i386.jar ${STAGEDIR}${DATADIR}/lib/
+.if ${ARCH} == amd64 || ${ARCH} == i386
+	${CP} ${DISTDIR}/zstd-jni-${ZSTDJNI_VERSION}-freebsd_${ARCH}.jar ${STAGEDIR}${DATADIR}/lib/
 .endif
 
 post-install-DOCS-on:
