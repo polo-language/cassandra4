@@ -197,7 +197,15 @@
      <!-- creates release tarballs -->
      <target name="artifacts" depends="_artifacts-init"
              description="Create Cassandra release artifacts">
-@@ -1923,8 +1999,8 @@
+@@ -1332,6 +1408,7 @@
+   <target name="_build-test">
+     <javac
+      fork="true"
++     memorymaximumsize="512M"
+      compiler="modern"
+      debug="true"
+      debuglevel="${debuglevel}"
+@@ -1923,8 +2000,8 @@
      <exec executable="nproc" outputproperty="cores.count" os="Linux,SunOS,Solaris" failifexecutionfails="false">
        <arg value="--all"/>
      </exec>
@@ -208,7 +216,7 @@
        <arg value="-n"/>
        <arg value="hw.ncpu"/>
      </exec>
-@@ -1944,6 +2020,11 @@
+@@ -1944,6 +2021,11 @@
      <exec executable="sysctl" outputproperty="mem.size" os="Mac,Mac OS X,Darwin" failifexecutionfails="false">
        <arg value="-n"/>
        <arg value="hw.memsize"/>
