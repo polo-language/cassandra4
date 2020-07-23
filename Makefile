@@ -9,7 +9,7 @@ MASTER_SITES=	APACHE/cassandra/${DISTVERSION}:apache \
 PKGNAMESUFFIX=	4
 DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
 DISTFILES=	${DISTNAME}.tar.gz:apache \
-		zstd-jni-${MASTER_SITES:M*\:maven:H:T}-freebsd_${ARCH}.jar:maven \
+		${ZSTD_DISTFILE} \
 		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz:repo
 EXTRACT_ONLY=	${DISTNAME}.tar.gz \
 		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz
@@ -145,6 +145,12 @@ PLIST_SUB+=		I386ONLY=""
 .else
 PLIST_SUB+=		AMD64ONLY="@comment "
 PLIST_SUB+=		I386ONLY="@comment "
+.endif
+
+.if ${ARCH} == amd64 || ${ARCH} == i386
+ZSTD_DISTFILE=	zstd-jni-${MASTER_SITES:M*\:maven:H:T}-freebsd_${ARCH}.jar:maven
+.else
+ZSTD_DISTFILE=	
 .endif
 
 post-install:
