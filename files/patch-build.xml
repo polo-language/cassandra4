@@ -102,7 +102,7 @@
        </artifact:dependencies>
        <copy todir="${test.lib}/jars">
          <fileset refid="test-dependency-jars"/>
-@@ -1227,6 +1222,86 @@
+@@ -1227,6 +1222,87 @@
        </copy>
      </target>
  
@@ -142,6 +142,7 @@
 +        <fileset dir="pylib">
 +          <include name="**" />
 +          <exclude name="**/*.pyc" />
++          <exclude name="Dockerfile.ubuntu.*" />
 +        </fileset>
 +      </copy>
 +      <copy todir="${dist.dir}/">
@@ -189,7 +190,7 @@
      <!-- creates release tarballs -->
      <target name="artifacts" depends="_artifacts-init"
              description="Create Cassandra release artifacts">
-@@ -1347,6 +1422,7 @@
+@@ -1347,6 +1423,7 @@
    <target name="_build-test">
      <javac
       fork="true"
@@ -197,7 +198,7 @@
       compiler="modern"
       debug="true"
       debuglevel="${debuglevel}"
-@@ -1938,8 +2014,8 @@
+@@ -1938,8 +2015,8 @@
      <exec executable="nproc" outputproperty="cores.count" os="Linux,SunOS,Solaris" failifexecutionfails="false">
        <arg value="--all"/>
      </exec>
@@ -208,7 +209,7 @@
        <arg value="-n"/>
        <arg value="hw.ncpu"/>
      </exec>
-@@ -1959,6 +2035,11 @@
+@@ -1959,6 +2036,11 @@
      <exec executable="sysctl" outputproperty="mem.size" os="Mac,Mac OS X,Darwin" failifexecutionfails="false">
        <arg value="-n"/>
        <arg value="hw.memsize"/>
