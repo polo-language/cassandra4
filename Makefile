@@ -150,7 +150,7 @@ PLIST_SUB+=		I386ONLY="@comment "
 .if ${ARCH} == amd64 || ${ARCH} == i386
 ZSTD_DISTFILE=	zstd-jni-${MASTER_SITES:M*\:maven:H:T}-freebsd_${ARCH}.jar:maven
 .else
-ZSTD_DISTFILE=	
+ZSTD_DISTFILE=
 .endif
 
 post-install:
