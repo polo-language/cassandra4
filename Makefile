@@ -1,11 +1,11 @@
-# $FreeBSD: head/databases/cassandra4/Makefile 534966 2020-05-11 23:51:58Z dbaio $
+# $FreeBSD: head/databases/cassandra4/Makefile 543475 2020-07-26 12:55:20Z mikael $
 
 PORTNAME=	cassandra
 DISTVERSION=	4.0-beta1
 CATEGORIES=	databases java
 MASTER_SITES=	APACHE/cassandra/${DISTVERSION}:apache \
 		https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.5-4/:maven \
-		LOCAL/pi:repo
+		LOCAL/mikael:repo
 PKGNAMESUFFIX=	4
 DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
 DISTFILES=	${DISTNAME}.tar.gz:apache \
@@ -95,10 +95,10 @@ post-build:
 .for f in ${SCRIPT_FILES}
 	@${REINPLACE_CMD} -e 's|/usr/share/cassandra|${DATADIR}/bin|' ${BUILD_DIST_DIR}/bin/${f}
 .endfor
-	@${REINPLACE_CMD} -e 's|\`dirname "\$$\0"\`/..|${DATADIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
-	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
-	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${BUILD_DIST_DIR}/conf/cassandra-env.sh
-	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/conf|${ETCDIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
+	@${REINPLACE_CMD} -e 's|`dirname "$$0"`/..|${DATADIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
+	@${REINPLACE_CMD} -e 's|$$CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
+	@${REINPLACE_CMD} -e 's|$$CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${BUILD_DIST_DIR}/conf/cassandra-env.sh
+	@${REINPLACE_CMD} -e 's|$$CASSANDRA_HOME/conf|${ETCDIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
 .for f in ${CONFIG_FILES}
 	@${MV} ${BUILD_DIST_DIR}/conf/${f} ${BUILD_DIST_DIR}/conf/${f}.sample
 .endfor
