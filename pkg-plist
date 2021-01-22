@@ -16,7 +16,7 @@
 %%DATADIR%%/lib/apache-cassandra-%%DISTVERSION%%.jar
 %%DATADIR%%/lib/asm-7.1.jar
 %%DATADIR%%/lib/caffeine-2.3.5.jar
-%%DATADIR%%/lib/cassandra-driver-core-3.9.0-shaded.jar
+%%DATADIR%%/lib/cassandra-driver-core-3.10.0-shaded.jar
 %%DATADIR%%/lib/cassandra-driver-internal-only-3.23.0.post0-1a184b99.zip
 %%DATADIR%%/lib/chronicle-bytes-1.16.3.jar
 %%DATADIR%%/lib/chronicle-core-1.16.4.jar
@@ -44,9 +44,9 @@
 %%DATADIR%%/lib/jbcrypt-0.3m.jar
 %%DATADIR%%/lib/jcl-over-slf4j-1.7.25.jar
 %%DATADIR%%/lib/jcommander-1.30.jar
-%%DATADIR%%/lib/jctools-core-1.2.1.jar
+%%DATADIR%%/lib/jctools-core-3.1.0.jar
 %%DATADIR%%/lib/jflex-1.6.0.jar
-%%DATADIR%%/lib/jna-4.2.2.jar
+%%DATADIR%%/lib/jna-5.6.0.jar
 %%DATADIR%%/lib/json-simple-1.1.jar
 %%DATADIR%%/lib/jstackjunit-0.0.1.jar
 %%DATADIR%%/lib/jvm-attach-api-1.5.jar
@@ -81,9 +81,9 @@
 %%DATADIR%%/lib/licenses/javax.inject.txt
 %%DATADIR%%/lib/licenses/jbcrypt-0.3m.txt
 %%DATADIR%%/lib/licenses/jcl-over-slf4j-1.7.25.txt
-%%DATADIR%%/lib/licenses/jctools-core-1.2.1.txt
+%%DATADIR%%/lib/licenses/jctools-core-3.1.0.txt
 %%DATADIR%%/lib/licenses/jflex-1.6.0.txt
-%%DATADIR%%/lib/licenses/jna-4.2.2.txt
+%%DATADIR%%/lib/licenses/jna-5.6.0.txt
 %%DATADIR%%/lib/licenses/joda-time-2.4.txt
 %%DATADIR%%/lib/licenses/json-simple-1.1.txt
 %%DATADIR%%/lib/licenses/jstackjunit-0.0.1.txt
@@ -95,7 +95,7 @@
 %%DATADIR%%/lib/licenses/metrics-core-3.1.5.txt
 %%DATADIR%%/lib/licenses/metrics-jvm-3.1.5.txt
 %%DATADIR%%/lib/licenses/metrics-logback-3.1.5.txt
-%%DATADIR%%/lib/licenses/netty-tcnative-2.0.31.txt
+%%DATADIR%%/lib/licenses/netty-tcnative-2.0.34.txt
 %%DATADIR%%/lib/licenses/psjava-0.1.19.txt
 %%DATADIR%%/lib/licenses/reporter-config-base-3.0.3.txt
 %%DATADIR%%/lib/licenses/reporter-config3-3.0.3.txt
@@ -114,7 +114,7 @@
 %%DATADIR%%/lib/metrics-logback-3.1.5.jar
 %%DATADIR%%/lib/mxdump-0.14.jar
 %%DATADIR%%/lib/netty.jar
-%%DATADIR%%/lib/netty-tcnative-boringssl-static-2.0.31.Final.jar
+%%DATADIR%%/lib/netty-tcnative-boringssl-static-2.0.34.Final.jar
 %%DATADIR%%/lib/psjava-0.1.19.jar
 %%DATADIR%%/lib/reporter-config-base-3.0.3.jar
 %%DATADIR%%/lib/reporter-config3-3.0.3.jar
@@ -124,7 +124,7 @@
 %%DATADIR%%/lib/sjk-json-0.14.jar
 %%DATADIR%%/lib/sjk-stacktrace-0.14.jar
 %%DATADIR%%/lib/slf4j-api-1.7.25.jar
-%%DATADIR%%/lib/snakeyaml-1.11.jar
+%%DATADIR%%/lib/snakeyaml-1.26.jar
 %%DATADIR%%/lib/snappy-java.jar
 %%DATADIR%%/lib/snowball-stemmer-1.3.0.581.1.jar
 %%DATADIR%%/lib/ST4-4.0.8.jar
@@ -170,6 +170,8 @@
 %%DATADIR%%/tools/bin/cassandra.in.sh
 %%DATADIR%%/tools/bin/compaction-stress
 %%DATADIR%%/tools/bin/fqltool
+%%DATADIR%%/tools/bin/generatetokens
+%%DATADIR%%/tools/bin/jmxtool
 %%DATADIR%%/tools/bin/sstabledump
 %%DATADIR%%/tools/bin/sstableexpiredblockers
 %%DATADIR%%/tools/bin/sstablelevelreset

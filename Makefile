@@ -1,7 +1,7 @@
 # $FreeBSD: head/databases/cassandra4/Makefile 561562 2021-01-14 14:34:38Z dbaio $
 
 PORTNAME=	cassandra
-DISTVERSION=	4.0-beta2
+DISTVERSION=	4.0-beta4
 CATEGORIES=	databases java
 MASTER_SITES=	APACHE/cassandra/${DISTVERSION}:apache \
 		https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.5-4/:maven \
