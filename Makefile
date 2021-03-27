@@ -1,4 +1,4 @@
-# $FreeBSD: head/databases/cassandra4/Makefile 561562 2021-01-14 14:34:38Z dbaio $
+# $FreeBSD: head/databases/cassandra4/Makefile 566485 2021-02-24 15:49:01Z antoine $
 
 PORTNAME=	cassandra
 DISTVERSION=	4.0-beta4
@@ -23,7 +23,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java \
 		netty>0:java/netty
 
-USES=		python:3.7
+USES=		python:3.7+
 USE_JAVA=	yes
 USE_ANT=	yes
 USE_RC_SUBR=	cassandra
