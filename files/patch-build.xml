@@ -127,7 +127,7 @@
 +          <exclude name="netty-all*.jar"/>
 +          <exclude name="ohc*.jar"/>
 +          <exclude name="licenses/snappy*.txt"/>
-+          <exclude name="licenses/netty-4*.txt"/>
++          <exclude name="licenses/netty-all*.txt"/>
 +          <exclude name="licenses/ohc*.txt"/>
 +        </fileset>
 +        <fileset dir="${build.dir}">

@@ -23,10 +23,11 @@ LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java \
 		netty>0:java/netty
 
-USES=		python:3.7+
+USES=		python:3.7+ shebangfix
 USE_JAVA=	yes
 USE_ANT=	yes
 USE_RC_SUBR=	cassandra
+SHEBANG_FILES=	bin/cqlsh.py pylib/setup.py
 TEST_TARGET=	test
 
 CONFLICTS=	cassandra3
