@@ -1,13 +1,13 @@
-# $FreeBSD$
+# $FreeBSD: head/databases/cassandra4/Makefile 566485 2021-02-24 15:49:01Z antoine $
 
 PORTNAME=	cassandra
-DISTVERSION=	4.0-alpha3
+DISTVERSION=	4.0-rc1
 CATEGORIES=	databases java
-MASTER_SITES=	https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.4-9/:maven # \
-		# LOCAL/tbd:repo
+MASTER_SITES=	https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.5-4/:maven \
+		LOCAL/mikael:repo
 PKGNAMESUFFIX=	4
 DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
-DISTFILES=	zstd-jni-1.4.4-9-freebsd_amd64.jar:maven \
+DISTFILES=	${ZSTD_DISTFILE} \
 		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz:repo
 EXTRACT_ONLY=	${GH_ACCOUNT}-${GH_PROJECT}-${DISTVERSION}-${GH_TAGNAME}_GH0.tar.gz \
 		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz
@@ -21,7 +21,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java \
 		netty>0:java/netty
 
-USES=		python:3.7
+USES=		python:3.7+ shebangfix
 USE_JAVA=	yes
 USE_ANT=	yes
 USE_RC_SUBR=	cassandra
@@ -29,14 +29,16 @@ USE_RC_SUBR=	cassandra
 USE_GITHUB=	yes
 GH_ACCOUNT=	apache
 GH_PROJECT=	cassandra
-GH_TAGNAME=	d00c004cc10986fc41c2070f9c5d0007e03a45c3
+GH_TAGNAME=	e848d47
 
+SHEBANG_FILES=	bin/cqlsh.py pylib/setup.py
 TEST_TARGET=	test
 
-JAVA_VERSION=	1.8
+CONFLICTS=	cassandra3
+
+JAVA_VERSION=	8 11
 JAVA_VENDOR=	openjdk
 
-REINPLACE_ARGS=	-i ''
 SUB_LIST=	JAVA_HOME=${JAVA_HOME}
 
 USERS=		cassandra
@@ -70,7 +72,8 @@ SCRIPT_FILES=	cassandra \
 		sstableutil \
 		sstableverify
 
-PLIST_SUB=	PORTVERSION=${PORTVERSION}
+ZSTDJNI_VERSION=${MASTER_SITES:M*\:maven:H:T}
+PLIST_SUB=	DISTVERSION=${DISTVERSION} ZSTDJNI_VERSION=${ZSTDJNI_VERSION}
 
 OPTIONS_DEFINE=		SIGAR DOCS
 OPTIONS_DEFAULT=	SIGAR
@@ -79,7 +82,7 @@ OPTIONS_SUB=		yes
 SIGAR_DESC=		Use SIGAR to collect system information
 SIGAR_RUN_DEPENDS=	java-sigar>=1.6.4:java/sigar
 
-DOCS_BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx@${PY_FLAVOR} \
+DOCS_BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}sphinx>=0,1:textproc/py-sphinx@${PY_FLAVOR} \
 			${PYTHON_PKGNAMEPREFIX}sphinx_rtd_theme>0:textproc/py-sphinx_rtd_theme@${PY_FLAVOR}
 
 PORTDOCS=		*
@@ -88,19 +91,19 @@ do-build:
 	@${DO_NADA} # Do nothing: Prevent USE_ANT from running a default build target.
 
 do-build-DOCS-on:
-	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} -Dpycmd=${PYTHON_CMD} -Dpyver=${PYTHON_VER} freebsd-stage-doc
+	cd ${WRKSRC} && ${SETENV} CASSANDRA_LOG_DIR=${WRKDIR}/gen-doc-log ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} ${USEJDK11} -Dpycmd=${PYTHON_CMD} -Dpyver=${PYTHON_VER} freebsd-stage-doc
 
 do-build-DOCS-off:
-	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} freebsd-stage
+	cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} ${USEJDK11} freebsd-stage
 
 post-build:
 .for f in ${SCRIPT_FILES}
 	@${REINPLACE_CMD} -e 's|/usr/share/cassandra|${DATADIR}/bin|' ${BUILD_DIST_DIR}/bin/${f}
 .endfor
-	@${REINPLACE_CMD} -e 's|\`dirname "\$$\0"\`/..|${DATADIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
-	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
-	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${BUILD_DIST_DIR}/conf/cassandra-env.sh
-	@${REINPLACE_CMD} -e 's|\$$\CASSANDRA_HOME/conf|${ETCDIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
+	@${REINPLACE_CMD} -e 's|`dirname "$$0"`/..|${DATADIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
+	@${REINPLACE_CMD} -e 's|$$CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
+	@${REINPLACE_CMD} -e 's|$$CASSANDRA_HOME/lib/sigar-bin|${JAVAJARDIR}|' ${BUILD_DIST_DIR}/conf/cassandra-env.sh
+	@${REINPLACE_CMD} -e 's|$$CASSANDRA_HOME/conf|${ETCDIR}|' ${BUILD_DIST_DIR}/bin/cassandra.in.sh
 .for f in ${CONFIG_FILES}
 	@${MV} ${BUILD_DIST_DIR}/conf/${f} ${BUILD_DIST_DIR}/conf/${f}.sample
 .endfor
@@ -130,20 +133,35 @@ do-install:
 	${LN} -s ${JAVAJARDIR}/snappy-java.jar ${STAGEDIR}${DATADIR}/lib/snappy-java.jar
 
 do-test:
-	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} -Dstagedlib=${STAGEDIR}${DATADIR}/lib test
+	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocalm2=${REPO_DIR} ${USEJDK11} -Dstagedlib=${STAGEDIR}${DATADIR}/lib test
 
 .include <bsd.port.pre.mk>
 
+.if ${JAVA_PORT_VERSION} == 11
+USEJDK11=	-Duse.jdk11=true
+.endif
+
 .if ${ARCH} == amd64
 PLIST_SUB+=		AMD64ONLY=""
+PLIST_SUB+=		I386ONLY="@comment "
+.elif ${ARCH} == i386
+PLIST_SUB+=		AMD64ONLY="@comment "
+PLIST_SUB+=		I386ONLY=""
 .else
 PLIST_SUB+=		AMD64ONLY="@comment "
+PLIST_SUB+=		I386ONLY="@comment "
+.endif
+
+.if ${ARCH} == amd64 || ${ARCH} == i386
+ZSTD_DISTFILE=	zstd-jni-${MASTER_SITES:M*\:maven:H:T}-freebsd_${ARCH}.jar:maven
+.else
+ZSTD_DISTFILE=
 .endif
 
 post-install:
 	${LN} -s ${JAVAJARDIR}/netty.jar ${STAGEDIR}${DATADIR}/lib/netty.jar
-.if ${ARCH} == amd64
-	${CP} ${DISTDIR}/zstd-jni-1.4.4-9-freebsd_amd64.jar ${STAGEDIR}${DATADIR}/lib/
+.if ${ARCH} == amd64 || ${ARCH} == i386
+	${CP} ${DISTDIR}/zstd-jni-${ZSTDJNI_VERSION}-freebsd_${ARCH}.jar ${STAGEDIR}${DATADIR}/lib/
 .endif
 
 post-install-DOCS-on:
