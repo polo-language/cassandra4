@@ -3,7 +3,7 @@
 PORTNAME=	cassandra
 DISTVERSION=	4.0-rc1
 CATEGORIES=	databases java
-MASTER_SITES=	https://dist.apache.org/repos/dist/dev/cassandra/${DISTVERSION}/:apache \
+MASTER_SITES=	APACHE/cassandra/${DISTVERSION}/:apache \
 		https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.5-4/:maven \
 		LOCAL/mikael:repo
 PKGNAMESUFFIX=	4
