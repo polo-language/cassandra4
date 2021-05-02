@@ -1,4 +1,4 @@
---- build.xml.orig	2021-03-26 19:57:29 UTC
+--- build.xml.orig	2021-04-21 17:33:51 UTC
 +++ build.xml
 @@ -25,6 +25,7 @@
      <property file="build.properties" />
@@ -25,16 +25,7 @@
      <property name="maven-ant-tasks.url"
                value="https://repo.maven.apache.org/maven2/org/apache/maven/maven-ant-tasks" />
      <!-- details of how and which Maven repository we publish to -->
-@@ -278,7 +279,7 @@
-     </path>
-     <path id="cassandra.classpath.test">
-         <file file="${build.dir}/${final.name}.jar"/> <!-- we need the jar for tests and benchmarks (multi-version jar) -->
--        <fileset dir="${build.lib}">
-+        <fileset dir="${stagedlib}">
-             <include name="**/*.jar" />
-             <exclude name="**/*-sources.jar"/>
-             <exclude name="**/ant-*.jar"/>
-@@ -298,7 +299,7 @@
+@@ -289,7 +290,7 @@
          windowtitle="${ant.project.name} API" classpathref="cassandra.classpath"
          bottom="Copyright &amp;copy; 2009-2021 The Apache Software Foundation"
          useexternalfile="yes" encoding="UTF-8" failonerror="false"
@@ -43,18 +34,8 @@
          <filesets/>
        </javadoc>
        <fail message="javadoc failed">
-@@ -424,8 +425,7 @@
-         <artifact:dependencies pathId="wikitext.classpath">
-             <dependency groupId="com.datastax.wikitext" artifactId="wikitext-core-ant" version="1.3"/>
-             <dependency groupId="org.fusesource.wikitext" artifactId="textile-core" version="1.3"/>
--            <remoteRepository refid="central"/>
--            <remoteRepository refid="apache"/>
-+            <localRepository path="${localm2}"/>
-         </artifact:dependencies>
-         <taskdef classpathref="wikitext.classpath" resource="wikitexttasks.properties" />
-         <wikitext-to-html markupLanguage="Textile">
-@@ -438,6 +438,8 @@
-     <target name="gen-doc" depends="maven-ant-tasks-init" description="Generate documentation" unless="ant.gen-doc.skip">
+@@ -424,6 +425,8 @@
+     <target name="gen-doc" description="Generate documentation" depends="jar" unless="ant.gen-doc.skip">
          <exec executable="make" osfamily="unix" dir="${doc.dir}">
              <arg value="html"/>
 +            <arg value="PYTHON_CMD=${pycmd}"/>
@@ -62,56 +43,7 @@
          </exec>
          <exec executable="cmd" osfamily="dos" dir="${doc.dir}">
              <arg value="/c"/>
-@@ -480,10 +482,6 @@
-             description="Initialize Maven ANT Tasks">
-       <typedef uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
- 
--      <!-- define the remote repositories we use -->
--      <artifact:remoteRepository id="central"   url="${artifact.remoteRepository.central}"/>
--      <artifact:remoteRepository id="apache"    url="${artifact.remoteRepository.apache}"/>
--
-       <macrodef name="install">
-         <attribute name="pomFile"/>
-         <attribute name="file"/>
-@@ -907,16 +905,14 @@
-                              filesetId="build-dependency-jars"
-                              cacheDependencyRefs="true"
-                              dependencyRefsBuildFile="${build.dir}/build-dependencies.xml">
--          <remoteRepository refid="central"/>
--          <remoteRepository refid="apache"/>
-+          <localRepository path="${localm2}"/>
-       </artifact:dependencies>
-       <!-- retrieve -source.jar artifacts using the reference-pom with the artifacts that have these -->
-       <artifact:dependencies pomRefId="build-deps-pom-sources"
-                              sourcesFilesetId="build-dependency-sources"
-                              cacheDependencyRefs="true"
-                              dependencyRefsBuildFile="${build.dir}/build-dependencies-sources.xml">
--          <remoteRepository refid="central"/>
--          <remoteRepository refid="apache"/>
-+          <localRepository path="${localm2}"/>
-       </artifact:dependencies>
-       <copy todir="${build.dir.lib}/jars">
-           <fileset refid="build-dependency-jars"/>
-@@ -929,7 +925,7 @@
-       <!-- code coverage tools -->
-       <artifact:dependencies pomRefId="coverage-deps-pom"
-                              filesetId="coverage-dependency-jars">
--          <remoteRepository refid="central"/>
-+          <localRepository path="${localm2}"/>
-       </artifact:dependencies>
-       <copy todir="${build.dir.lib}/jars">
-           <fileset refid="coverage-dependency-jars"/>
-@@ -959,8 +955,7 @@
-                              sourcesFilesetId="test-dependency-sources"
-                              cacheDependencyRefs="true"
-                              dependencyRefsBuildFile="${build.dir}/test-dependencies.xml">
--        <remoteRepository refid="apache"/>
--        <remoteRepository refid="central"/>
-+        <localRepository path="${localm2}"/>
-       </artifact:dependencies>
-       <copy todir="${test.lib}/jars">
-         <fileset refid="test-dependency-jars"/>
-@@ -1278,6 +1273,87 @@
+@@ -1134,6 +1137,87 @@
        </copy>
      </target>
  
@@ -197,46 +129,5 @@
 +    </target>
 +    
      <!-- creates release tarballs -->
-     <target name="artifacts" depends="_artifacts-init"
+     <target name="artifacts" depends="_artifacts-init,gen-doc,sources-jar,javadoc-jar"
              description="Create Cassandra release artifacts">
-@@ -1418,6 +1494,7 @@
-   <target name="_build-test">
-     <javac
-      fork="true"
-+     memorymaximumsize="512M"
-      compiler="modern"
-      debug="true"
-      debuglevel="${debuglevel}"
-@@ -1886,8 +1963,7 @@
-   <target name="rat-init" depends="maven-ant-tasks-init">
-     <artifact:dependencies pathId="rat.classpath">
-       <dependency groupId="org.apache.rat" artifactId="apache-rat-tasks" version="0.6" />
--      <remoteRepository refid="central"/>
--      <remoteRepository refid="apache"/>
-+      <localRepository path="${localm2}"/>
-     </artifact:dependencies>
-     <typedef uri="antlib:org.apache.rat.anttasks" classpathref="rat.classpath"/>
-   </target>
-@@ -2033,8 +2109,8 @@
-     <exec executable="nproc" outputproperty="cores.count" os="Linux,SunOS,Solaris" failifexecutionfails="false">
-       <arg value="--all"/>
-     </exec>
--    <!-- support for Mac OS X -->
--    <exec executable="sysctl" outputproperty="cores.count" os="Mac,Mac OS X,Darwin" failifexecutionfails="false">
-+    <!-- support for Mac OS X and FreeBSD -->
-+    <exec executable="sysctl" outputproperty="cores.count" os="Mac,Mac OS X,Darwin,FreeBSD" failifexecutionfails="false">
-       <arg value="-n"/>
-       <arg value="hw.ncpu"/>
-     </exec>
-@@ -2054,6 +2130,11 @@
-     <exec executable="sysctl" outputproperty="mem.size" os="Mac,Mac OS X,Darwin" failifexecutionfails="false">
-       <arg value="-n"/>
-       <arg value="hw.memsize"/>
-+    </exec>
-+    <!-- support for FreeBSD -->
-+    <exec executable="sysctl" outputproperty="mem.size" os="FreeBSD" failifexecutionfails="false">
-+      <arg value="-n"/>
-+      <arg value="hw.physmem"/>
-     </exec>
-     <echo message="Mem size : ${mem.size}"/>
-   </target>

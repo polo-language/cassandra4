@@ -83,6 +83,10 @@ DOCS_BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}sphinx>=0,1:textproc/py-sphinx@${PY_F
 
 PORTDOCS=		*
 
+post-patch:
+	@${REINPLACE_CMD} -e 's|$${user.home}/.m2/repository/|$${localm2}/|g' ${WRKSRC}/.build/build-resolver.xml
+
+
 do-build:
 	@${DO_NADA} # Do nothing: Prevent USE_ANT from running a default build target.
 
@@ -122,6 +126,8 @@ do-install:
 	cd ${BUILD_DIST_DIR} && ${INSTALL_DATA} bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/bin/
 	cd ${BUILD_DIST_DIR} && ${COPYTREE_BIN} tools/bin ${STAGEDIR}${DATADIR}/
 	cd ${BUILD_DIST_DIR} && ${INSTALL_DATA} tools/bin/cassandra.in.sh ${STAGEDIR}${DATADIR}/tools/bin/
+	cd ${BUILD_DIST_DIR} && ${INSTALL_DATA} tools/lib/fqltool.jar ${STAGEDIR}${DATADIR}/tools/lib/
+	cd ${BUILD_DIST_DIR} && ${INSTALL_DATA} tools/lib/stress.jar ${STAGEDIR}${DATADIR}/tools/lib/
 .for f in ${SCRIPT_FILES}
 	${RLN} ${STAGEDIR}${DATADIR}/bin/${f} ${STAGEDIR}${PREFIX}/bin/${f}
 .endfor
