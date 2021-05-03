@@ -25,6 +25,15 @@
      <property name="maven-ant-tasks.url"
                value="https://repo.maven.apache.org/maven2/org/apache/maven/maven-ant-tasks" />
      <!-- details of how and which Maven repository we publish to -->
+@@ -272,7 +273,7 @@
+     </path>
+     <path id="cassandra.classpath.test">
+         <file file="${build.dir}/${final.name}.jar"/> <!-- we need the jar for tests and benchmarks (multi-version jar) -->
+-        <fileset dir="${build.dir.lib}">
++        <fileset dir="${stagedlib}">
+             <include name="**/*.jar" />
+         </fileset>
+         <fileset dir="${test.lib}/jars">
 @@ -289,7 +290,7 @@
          windowtitle="${ant.project.name} API" classpathref="cassandra.classpath"
          bottom="Copyright &amp;copy; 2009-2021 The Apache Software Foundation"
