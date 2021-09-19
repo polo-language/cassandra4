@@ -52,7 +52,7 @@
 %%DATADIR%%/lib/log4j-over-slf4j-1.7.25.jar
 %%DATADIR%%/lib/logback-classic-1.2.3.jar
 %%DATADIR%%/lib/logback-core-1.2.3.jar
-%%DATADIR%%/lib/lz4-java-1.7.1.jar
+%%DATADIR%%/lib/lz4-java-1.8.0.jar
 %%DATADIR%%/lib/metrics-core-3.1.5.jar
 %%DATADIR%%/lib/metrics-jvm-3.1.5.jar
 %%DATADIR%%/lib/metrics-logback-3.1.5.jar

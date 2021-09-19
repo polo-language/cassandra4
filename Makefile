@@ -1,7 +1,7 @@
 # $FreeBSD: head/databases/cassandra4/Makefile 566485 2021-02-24 15:49:01Z antoine $
 
 PORTNAME=	cassandra
-DISTVERSION=	4.0-rc1
+DISTVERSION=	4.0.1
 CATEGORIES=	databases java
 MASTER_SITES=	APACHE/cassandra/${DISTVERSION}/:apache \
 		https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.4.5-4/:maven \
@@ -140,7 +140,7 @@ do-test:
 .include <bsd.port.pre.mk>
 
 .if ${JAVA_PORT_VERSION} == 11
-USEJDK11=	-Duse.jdk11=true
+USEJDK11=	-Duse.jdk11=true -Drat.skip=true
 .endif
 
 .if ${ARCH} == amd64
