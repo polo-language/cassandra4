@@ -1,6 +1,6 @@
---- bin/cqlsh.orig	2021-05-03 23:13:22 UTC
+--- bin/cqlsh.orig	2022-05-06 16:40:06 UTC
 +++ bin/cqlsh
-@@ -87,7 +87,7 @@ if [ "$USER_SPECIFIED_PYTHON" != "" ]; then
+@@ -88,7 +88,7 @@ if [ "$USER_SPECIFIED_PYTHON" != "" ]; then
      # run a user specified Python interpreter
      run_if_supported_version "$USER_SPECIFIED_PYTHON" "$@"
  else

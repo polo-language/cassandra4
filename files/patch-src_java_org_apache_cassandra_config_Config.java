@@ -1,6 +1,6 @@
---- src/java/org/apache/cassandra/config/Config.java.orig	2021-03-26 19:57:28 UTC
+--- src/java/org/apache/cassandra/config/Config.java.orig	2022-05-06 16:40:06 UTC
 +++ src/java/org/apache/cassandra/config/Config.java
-@@ -300,7 +300,7 @@ public class Config
+@@ -304,7 +304,7 @@ public class Config
      public volatile int key_cache_save_period = 14400;
      public volatile int key_cache_keys_to_save = Integer.MAX_VALUE;
  
