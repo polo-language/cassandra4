@@ -17,6 +17,7 @@
 %%DATADIR%%/lib/asm-7.1.jar
 %%DATADIR%%/lib/caffeine-2.5.6.jar
 %%DATADIR%%/lib/cassandra-driver-core-3.11.0-shaded.jar
+%%DATADIR%%/lib/cassandra-driver-internal-only-3.25.0.zip
 %%DATADIR%%/lib/chronicle-bytes-2.20.111.jar
 %%DATADIR%%/lib/chronicle-core-2.20.126.jar
 %%DATADIR%%/lib/chronicle-queue-5.20.123.jar
@@ -78,7 +79,6 @@
 %%DATADIR%%/LICENSE.txt
 %%DATADIR%%/NEWS.txt
 %%DATADIR%%/NOTICE.txt
-%%DATADIR%%/pylib/cassandra-cqlsh-tests.sh
 %%DATADIR%%/pylib/cqlshlib/__init__.py
 %%DATADIR%%/pylib/cqlshlib/copyutil.py
 %%DATADIR%%/pylib/cqlshlib/cql3handling.py
@@ -91,17 +91,6 @@
 %%DATADIR%%/pylib/cqlshlib/saferscanner.py
 %%DATADIR%%/pylib/cqlshlib/setup.cfg
 %%DATADIR%%/pylib/cqlshlib/sslhandling.py
-%%DATADIR%%/pylib/cqlshlib/test/__init__.py
-%%DATADIR%%/pylib/cqlshlib/test/ansi_colors.py
-%%DATADIR%%/pylib/cqlshlib/test/basecase.py
-%%DATADIR%%/pylib/cqlshlib/test/cassconnect.py
-%%DATADIR%%/pylib/cqlshlib/test/run_cqlsh.py
-%%DATADIR%%/pylib/cqlshlib/test/test_copyutil.py
-%%DATADIR%%/pylib/cqlshlib/test/test_cql_parsing.py
-%%DATADIR%%/pylib/cqlshlib/test/test_cqlsh_completion.py
-%%DATADIR%%/pylib/cqlshlib/test/test_cqlsh_output.py
-%%DATADIR%%/pylib/cqlshlib/test/test_keyspace_init.cql
-%%DATADIR%%/pylib/cqlshlib/test/winpty.py
 %%DATADIR%%/pylib/cqlshlib/tracing.py
 %%DATADIR%%/pylib/cqlshlib/util.py
 %%DATADIR%%/pylib/cqlshlib/wcwidth.py
