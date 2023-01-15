@@ -7,9 +7,9 @@ PKGNAMESUFFIX=	4
 DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
 DISTFILES=	${DISTNAME}.tar.gz:apache \
 		${ZSTD_DISTFILE} \
-		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz:repo
+		apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz:repo
 EXTRACT_ONLY=	${DISTNAME}.tar.gz \
-		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz
+		apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz
 
 MAINTAINER=	language.devel@gmail.com
 COMMENT=	Highly scalable distributed database
@@ -88,7 +88,9 @@ pre-fetch:
 	${CP} ${FILESDIR}/maven/build-* ${WRKSRC}/.build
 	cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} resolver-dist-lib
 	cd ${REPO_DIR} && ${FIND} . -type f -name "*.repositories" -a -exec ${SED} -i '' -e '2s,.*,Mon Aug 08 20:40:04 CEST 2022,' {} +
-	cd ${WRKDIR} && ${TAR} czf ${DISTDIR}/apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz repository/
+	cd ${REPO_DIR} && ${FIND} . -print0 | xargs -0 touch -d 2022-08-08T20:40:04Z
+	cd ${WRKDIR} && ${FIND} -s repository/ -print >list.txt && \
+            ${TAR} cJf ${DISTDIR}/apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz -nT list.txt
 	${RM} -r ${WRKDIR}
 
 do-build:
