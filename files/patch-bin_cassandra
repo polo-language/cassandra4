@@ -1,4 +1,4 @@
---- bin/cassandra.orig	2020-04-10 22:29:25 UTC
+--- bin/cassandra.orig	2022-12-07 20:55:02 UTC
 +++ bin/cassandra
 @@ -31,7 +31,7 @@
  #   JVM_OPTS -- Additional arguments to the JVM for heap size, etc
@@ -17,4 +17,4 @@
 +  CASSANDRA_LOG_DIR=/var/log/cassandra
  fi
  
- # Special-case path variables.
+ # Cassandra uses an installed jemalloc via LD_PRELOAD / DYLD_INSERT_LIBRARIES by default to improve off-heap
