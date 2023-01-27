@@ -14,8 +14,8 @@
 %%DATADIR%%/lib/airline-0.8.jar
 %%DATADIR%%/lib/antlr-runtime-3.5.2.jar
 %%DATADIR%%/lib/apache-cassandra-%%DISTVERSION%%.jar
-%%DATADIR%%/lib/asm-7.1.jar
-%%DATADIR%%/lib/caffeine-2.5.6.jar
+%%DATADIR%%/lib/asm-9.1.jar
+%%DATADIR%%/lib/caffeine-2.9.2.jar
 %%DATADIR%%/lib/cassandra-driver-core-3.11.0-shaded.jar
 %%DATADIR%%/lib/cassandra-driver-internal-only-3.25.0.zip
 %%DATADIR%%/lib/chronicle-bytes-2.20.111.jar
@@ -47,7 +47,7 @@
 %%DATADIR%%/lib/jcommander-1.30.jar
 %%DATADIR%%/lib/jctools-core-3.1.0.jar
 %%DATADIR%%/lib/jflex-1.8.2.jar
-%%DATADIR%%/lib/jna-5.6.0.jar
+%%DATADIR%%/lib/jna-5.9.0.jar
 %%DATADIR%%/lib/json-simple-1.1.jar
 %%DATADIR%%/lib/jvm-attach-api-1.5.jar
 %%DATADIR%%/lib/log4j-over-slf4j-1.7.25.jar
@@ -129,6 +129,7 @@
 @sample %%ETCDIR%%/cassandra.yaml.sample
 @sample %%ETCDIR%%/commitlog_archiving.properties.sample
 @sample %%ETCDIR%%/cqlshrc.sample
+@sample %%ETCDIR%%/credentials.sample
 @sample %%ETCDIR%%/hotspot_compiler.sample
 @sample %%ETCDIR%%/jvm-clients.options.sample
 @sample %%ETCDIR%%/jvm-server.options.sample
