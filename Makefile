@@ -17,6 +17,7 @@ COMMENT=	Highly scalable distributed database
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
+FETCH_DEPENDS=	${LOCALBASE}/bin/ant:devel/apache-ant
 RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java \
 		netty>0:java/netty
 
