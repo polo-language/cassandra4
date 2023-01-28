@@ -8,12 +8,13 @@ DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
 DISTFILES=	${DISTNAME}.tar.gz:apache \
 		${ZSTD_DISTFILE} \
 		${MAVEN_CACHE_FILE}:repo
+DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${DISTNAME}.tar.gz \
 		${MAVEN_CACHE_FILE}
-DIST_SUBDIR=	${PORTNAME}
 
 MAINTAINER=	language.devel@gmail.com
 COMMENT=	Highly scalable distributed database
+WWW=		https://cassandra.apache.org/
 
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
@@ -88,8 +89,8 @@ MAVEN_CACHE_FILE=	apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz
 .if !exists(${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE})
 pre-fetch:
 	${MKDIR} ${DISTDIR}/${DIST_SUBDIR}
-	${MKDIR} -p ${WRKSRC}/.build
-	${MKDIR} -p ${WRKSRC}/src/java
+	${MKDIR} ${WRKSRC}/.build
+	${MKDIR} ${WRKSRC}/src/java
 	${CP} ${FILESDIR}/maven/build.* ${WRKSRC}
 	${CP} ${FILESDIR}/maven/build-* ${WRKSRC}/.build
 	cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} resolver-dist-lib
@@ -182,7 +183,7 @@ ZSTD_DISTFILE=
 post-install:
 	${LN} -s ${JAVAJARDIR}/netty.jar ${STAGEDIR}${DATADIR}/lib/netty.jar
 .if ${ARCH} == amd64 || ${ARCH} == i386
-	${CP} ${DISTDIR}/zstd-jni-${ZSTDJNI_VERSION}-freebsd_${ARCH}.jar ${STAGEDIR}${DATADIR}/lib/
+	${CP} ${DISTDIR}/${DIST_SUBDIR}/zstd-jni-${ZSTDJNI_VERSION}-freebsd_${ARCH}.jar ${STAGEDIR}${DATADIR}/lib/
 .endif
 
 post-install-DOCS-on:
