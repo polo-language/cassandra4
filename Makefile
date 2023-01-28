@@ -82,7 +82,10 @@ DOCS_BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}sphinx>=0,1:textproc/py-sphinx@${PY_F
 
 PORTDOCS=		*
 
+REPO_STATE!=		[ -e ${DISTDIR}/apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz ] && echo exists || echo fetch
+
 pre-fetch:
+.if ${REPO_STATE} == fetch
 	${MKDIR} -p ${WRKSRC}/.build
 	${MKDIR} -p ${WRKSRC}/src/java
 	${CP} ${FILESDIR}/maven/build.* ${WRKSRC}
@@ -93,6 +96,9 @@ pre-fetch:
 	cd ${WRKDIR} && ${FIND} -s repository/ -print >list.txt && \
             ${TAR} cJf ${DISTDIR}/apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz -nT list.txt
 	${RM} -r ${WRKDIR}
+.else
+	@${DO_NADA} # Do nothing: Prevent USE_ANT from running a default build target.
+.endif
 
 do-build:
 	@${DO_NADA} # Do nothing: Prevent USE_ANT from running a default build target.
