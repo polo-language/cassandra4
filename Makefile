@@ -7,16 +7,19 @@ PKGNAMESUFFIX=	4
 DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
 DISTFILES=	${DISTNAME}.tar.gz:apache \
 		${ZSTD_DISTFILE} \
-		apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz:repo
+		${MAVEN_CACHE_FILE}:repo
+DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${DISTNAME}.tar.gz \
-		apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz
+		${MAVEN_CACHE_FILE}
 
 MAINTAINER=	language.devel@gmail.com
 COMMENT=	Highly scalable distributed database
+WWW=		https://cassandra.apache.org/
 
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
+FETCH_DEPENDS=	ant:devel/apache-ant
 RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java \
 		netty>0:java/netty
 
@@ -81,17 +84,27 @@ DOCS_BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}sphinx>=0,1:textproc/py-sphinx@${PY_F
 
 PORTDOCS=		*
 
+MAVEN_CACHE_FILE=	apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz
+
+.if !exists(${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE})
 pre-fetch:
-	${MKDIR} -p ${WRKSRC}/.build
-	${MKDIR} -p ${WRKSRC}/src/java
+	${MKDIR} ${DISTDIR}/${DIST_SUBDIR}
+	${MKDIR} ${WRKSRC}/.build
+	${MKDIR} ${WRKSRC}/src/java
 	${CP} ${FILESDIR}/maven/build.* ${WRKSRC}
 	${CP} ${FILESDIR}/maven/build-* ${WRKSRC}/.build
 	cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} resolver-dist-lib
 	cd ${REPO_DIR} && ${FIND} . -type f -name "*.repositories" -a -exec ${SED} -i '' -e '2s,.*,Mon Aug 08 20:40:04 CEST 2022,' {} +
-	cd ${REPO_DIR} && ${FIND} . -print0 | xargs -0 touch -d 2022-08-08T20:40:04Z
-	cd ${WRKDIR} && ${FIND} -s repository/ -print >list.txt && \
-            ${TAR} cJf ${DISTDIR}/apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz -nT list.txt
-	${RM} -r ${WRKDIR}
+	cd ${WRKDIR} && ${MTREE_CMD} -cbnSp repository | ${MTREE_CMD} -C | ${SED} \
+		-e 's:time=[0-9.]*:time=0.000000000:' \
+		-e 's:\([gu]id\)=[0-9]*:\1=0:g' \
+		-e 's:flags=.*:flags=none:' \
+		-e 's:^\.:./repository:' \
+		> maven-offline-cache.mtree
+	cd ${WRKDIR} && ${TAR} cJf ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE} \
+		@maven-offline-cache.mtree
+	ls -al ${DISTDIR}/${DIST_SUBDIR}/apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz
+.endif
 
 do-build:
 	@${DO_NADA} # Do nothing: Prevent USE_ANT from running a default build target.
