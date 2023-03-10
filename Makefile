@@ -182,7 +182,7 @@ ZSTD_DISTFILE=
 post-install:
 	${LN} -s ${JAVAJARDIR}/netty.jar ${STAGEDIR}${DATADIR}/lib/netty.jar
 .if ${ARCH} == amd64 || ${ARCH} == i386
-	${CP} ${DISTDIR}/zstd-jni-${ZSTDJNI_VERSION}-freebsd_${ARCH}.jar ${STAGEDIR}${DATADIR}/lib/
+	${CP} ${DISTDIR}/${DIST_SUBDIR}/zstd-jni-${ZSTDJNI_VERSION}-freebsd_${ARCH}.jar ${STAGEDIR}${DATADIR}/lib/
 .endif
 
 post-install-DOCS-on:
