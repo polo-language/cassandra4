@@ -7,7 +7,7 @@ PKGNAMESUFFIX=	4
 DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
 DISTFILES=	${DISTNAME}.tar.gz:apache \
 		${ZSTD_DISTFILE} \
-		${MAVEN_CACHE_FILE}:repo
+		${MAVEN_CACHE_FILE}:prefetch
 DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${DISTNAME}.tar.gz \
 		${MAVEN_CACHE_FILE}
@@ -69,7 +69,7 @@ SCRIPT_FILES=	cassandra \
 		sstableutil \
 		sstableverify
 
-ZSTDJNI_VERSION=${MASTER_SITES:M*\:maven:H:T}
+ZSTDJNI_VERSION=	${MASTER_SITES:M*\:maven:H:T}
 PLIST_SUB=	DISTVERSION=${DISTVERSION} ZSTDJNI_VERSION=${ZSTDJNI_VERSION}
 
 OPTIONS_DEFINE=		SIGAR DOCS
@@ -103,7 +103,9 @@ pre-fetch:
 		> maven-offline-cache.mtree
 	cd ${WRKDIR} && ${TAR} cJf ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE} \
 		@maven-offline-cache.mtree
-	ls -al ${DISTDIR}/${DIST_SUBDIR}/apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz
+#TODO: debug, remove
+	ls -al ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE}
+	${SHA256} ${WRKDIR}/maven-offline-cache.mtree ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE}
 .endif
 
 do-build:
