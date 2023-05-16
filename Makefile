@@ -103,8 +103,6 @@ pre-fetch:
 		> maven-offline-cache.mtree
 	cd ${WRKDIR} && ${TAR} cJf ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE} \
 		@maven-offline-cache.mtree
-#TODO: debug, remove
-	ls -al ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE}
 	${SHA256} ${WRKDIR}/maven-offline-cache.mtree ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE}
 .endif
 
