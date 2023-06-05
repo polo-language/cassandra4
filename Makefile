@@ -1,5 +1,5 @@
 PORTNAME=	cassandra
-DISTVERSION=	4.0.5
+DISTVERSION=	4.0.8
 CATEGORIES=	databases java
 MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/${DISTVERSION}/:apache \
 		https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.5.0-4/:maven
@@ -7,16 +7,19 @@ PKGNAMESUFFIX=	4
 DISTNAME=	apache-${PORTNAME}-${DISTVERSION}-src
 DISTFILES=	${DISTNAME}.tar.gz:apache \
 		${ZSTD_DISTFILE} \
-		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz:repo
+		${MAVEN_CACHE_FILE}:prefetch
+DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${DISTNAME}.tar.gz \
-		apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz
+		${MAVEN_CACHE_FILE}
 
 MAINTAINER=	language.devel@gmail.com
 COMMENT=	Highly scalable distributed database
+WWW=		https://cassandra.apache.org/
 
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
+FETCH_DEPENDS=	ant:devel/apache-ant
 RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java \
 		netty>0:java/netty
 
@@ -66,7 +69,7 @@ SCRIPT_FILES=	cassandra \
 		sstableutil \
 		sstableverify
 
-ZSTDJNI_VERSION=${MASTER_SITES:M*\:maven:H:T}
+ZSTDJNI_VERSION=	${MASTER_SITES:M*\:maven:H:T}
 PLIST_SUB=	DISTVERSION=${DISTVERSION} ZSTDJNI_VERSION=${ZSTDJNI_VERSION}
 
 OPTIONS_DEFINE=		SIGAR DOCS
@@ -81,15 +84,27 @@ DOCS_BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}sphinx>=0,1:textproc/py-sphinx@${PY_F
 
 PORTDOCS=		*
 
+MAVEN_CACHE_FILE=	apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz
+
+.if !exists(${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE})
 pre-fetch:
-	${MKDIR} -p ${WRKSRC}/.build
-	${MKDIR} -p ${WRKSRC}/src/java
+	${MKDIR} ${DISTDIR}/${DIST_SUBDIR}
+	${MKDIR} ${WRKSRC}/.build
+	${MKDIR} ${WRKSRC}/src/java
 	${CP} ${FILESDIR}/maven/build.* ${WRKSRC}
 	${CP} ${FILESDIR}/maven/build-* ${WRKSRC}/.build
 	cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} resolver-dist-lib
 	cd ${REPO_DIR} && ${FIND} . -type f -name "*.repositories" -a -exec ${SED} -i '' -e '2s,.*,Mon Aug 08 20:40:04 CEST 2022,' {} +
-	cd ${WRKDIR} && ${TAR} czf ${DISTDIR}/apache-${PORTNAME}-${DISTVERSION}-repo.tar.gz repository/
-	${RM} -r ${WRKDIR}
+	cd ${WRKDIR} && ${MTREE_CMD} -cbnSp repository | ${MTREE_CMD} -C | ${SED} \
+		-e 's:time=[0-9.]*:time=0.000000000:' \
+		-e 's:\([gu]id\)=[0-9]*:\1=0:g' \
+		-e 's:flags=.*:flags=none:' \
+		-e 's:^\.:./repository:' \
+		> maven-offline-cache.mtree
+	cd ${WRKDIR} && ${TAR} cJf ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE} \
+		@maven-offline-cache.mtree
+	${SHA256} ${WRKDIR}/maven-offline-cache.mtree ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE}
+.endif
 
 do-build:
 	@${DO_NADA} # Do nothing: Prevent USE_ANT from running a default build target.
@@ -167,7 +182,7 @@ ZSTD_DISTFILE=
 post-install:
 	${LN} -s ${JAVAJARDIR}/netty.jar ${STAGEDIR}${DATADIR}/lib/netty.jar
 .if ${ARCH} == amd64 || ${ARCH} == i386
-	${CP} ${DISTDIR}/zstd-jni-${ZSTDJNI_VERSION}-freebsd_${ARCH}.jar ${STAGEDIR}${DATADIR}/lib/
+	${CP} ${DISTDIR}/${DIST_SUBDIR}/zstd-jni-${ZSTDJNI_VERSION}-freebsd_${ARCH}.jar ${STAGEDIR}${DATADIR}/lib/
 .endif
 
 post-install-DOCS-on:

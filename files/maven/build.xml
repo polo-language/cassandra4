@@ -544,7 +544,7 @@
             <exclusion groupId="com.google.guava" artifactId="guava"/>
           </dependency>
           <dependency groupId="org.apache.cassandra" artifactId="dtest-api" version="0.0.13" scope="test"/>
-          <dependency groupId="org.reflections" artifactId="reflections" version="0.9.12" scope="test"/>
+          <dependency groupId="org.reflections" artifactId="reflections" version="0.10.2" scope="test"/>
           <dependency groupId="org.apache.hadoop" artifactId="hadoop-core" version="1.0.3" scope="provided">
             <exclusion groupId="org.mortbay.jetty" artifactId="servlet-api"/>
             <exclusion groupId="commons-logging" artifactId="commons-logging"/>
@@ -913,7 +913,7 @@
     <property name="stress.test.src" value="${basedir}/tools/stress/test/unit" />
     <property name="stress.build.classes" value="${build.classes}/stress" />
     <property name="stress.test.classes" value="${build.dir}/test/stress-classes" />
-	<property name="stress.manifest" value="${stress.build.classes}/MANIFEST.MF" />
+    <property name="stress.manifest" value="${stress.build.classes}/MANIFEST.MF" />
 
     <target name="stress-build-test" depends="stress-build" description="Compile stress tests">
         <javac debug="true" debuglevel="${debuglevel}" destdir="${stress.test.classes}"
@@ -932,7 +932,7 @@
     </target>
 
     <target name="_stress_build">
-    	<mkdir dir="${stress.build.classes}" />
+        <mkdir dir="${stress.build.classes}" />
         <javac compiler="modern" debug="true" debuglevel="${debuglevel}"
                source="${source.version}" target="${target.version}"
                encoding="utf-8" destdir="${stress.build.classes}" includeantruntime="true">
@@ -990,7 +990,7 @@
     </target>
 
     <target name="_fqltool_build">
-    	<mkdir dir="${fqltool.build.classes}" />
+        <mkdir dir="${fqltool.build.classes}" />
         <javac compiler="modern" debug="true" debuglevel="${debuglevel}"
                source="${source.version}" target="${target.version}"
                encoding="utf-8" destdir="${fqltool.build.classes}" includeantruntime="true">
@@ -1007,15 +1007,15 @@
         </testmacro>
     </target>
 
-	<target name="_write-poms" depends="maven-declare-dependencies">
-	    <artifact:writepom pomRefId="parent-pom" file="${build.dir}/${final.name}-parent.pom"/>
-	    <artifact:writepom pomRefId="all-pom" file="${build.dir}/${final.name}.pom"/>
-	    <artifact:writepom pomRefId="build-deps-pom" file="${build.dir}/tmp-${final.name}-deps.pom"/>
-	</target>
+    <target name="_write-poms" depends="maven-declare-dependencies">
+        <artifact:writepom pomRefId="parent-pom" file="${build.dir}/${final.name}-parent.pom"/>
+        <artifact:writepom pomRefId="all-pom" file="${build.dir}/${final.name}.pom"/>
+        <artifact:writepom pomRefId="build-deps-pom" file="${build.dir}/tmp-${final.name}-deps.pom"/>
+    </target>
 
-	<target name="write-poms" unless="without.maven">
-	    <antcall target="_write-poms" />
-	</target>
+    <target name="write-poms" unless="without.maven">
+        <antcall target="_write-poms" />
+    </target>
 
     <!--
         The jar target makes cassandra.jar output.
@@ -1138,7 +1138,7 @@
       <copy todir="${dist.dir}/tools/">
         <fileset dir="${basedir}/tools/">
             <include name="*.yaml"/>
-	</fileset>
+    </fileset>
       </copy>
       <copy todir="${dist.dir}/tools/lib">
         <fileset dir="${build.dir}/tools/lib/">
@@ -2008,7 +2008,7 @@
   </natures>
 </projectDescription>]]>
     </echo>
-	<echo file=".classpath"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+    <echo file=".classpath"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <classpath>
   <classpathentry kind="src" path="src/java"/>
   <classpathentry kind="src" path="src/resources"/>
@@ -2027,19 +2027,19 @@
   <classpathentry kind="lib" path="test/conf"/>
   <classpathentry kind="lib" path="${java.home}/../lib/tools.jar"/>
 ]]>
-	</echo>
-  	<path id="eclipse-project-libs-path">
-  	 <fileset dir="lib">
-  	    <include name="**/*.jar" />
+    </echo>
+      <path id="eclipse-project-libs-path">
+       <fileset dir="lib">
+          <include name="**/*.jar" />
      </fileset>
- 	 <fileset dir="build/lib/jars">
-  	    <include name="**/*.jar" />
-  	 </fileset>
+      <fileset dir="build/lib/jars">
+          <include name="**/*.jar" />
+       </fileset>
      <fileset dir="build/test/lib/jars">
         <include name="**/*.jar" />
      </fileset>
-  	</path>
-  	<property name="eclipse-project-libs" refid="eclipse-project-libs-path"/>
+      </path>
+      <property name="eclipse-project-libs" refid="eclipse-project-libs-path"/>
        <script language="javascript">
         <classpath>
             <path refid="cassandra.classpath"/>
@@ -2047,30 +2047,30 @@
         </classpath>
         <![CDATA[
         var File = java.io.File;
-  		var FilenameUtils = Packages.org.apache.commons.io.FilenameUtils;
-  		jars = project.getProperty("eclipse-project-libs").split(project.getProperty("path.separator"));
+          var FilenameUtils = Packages.org.apache.commons.io.FilenameUtils;
+          jars = project.getProperty("eclipse-project-libs").split(project.getProperty("path.separator"));
 
-  		cp = "";
-  	    for (i=0; i< jars.length; i++) {
-  	       srcjar = FilenameUtils.getBaseName(jars[i]) + '-sources.jar';
+          cp = "";
+          for (i=0; i< jars.length; i++) {
+             srcjar = FilenameUtils.getBaseName(jars[i]) + '-sources.jar';
            srcdir = FilenameUtils.concat(project.getProperty("build.test.dir"), 'sources');
-  		   srcfile = new File(FilenameUtils.concat(srcdir, srcjar));
+             srcfile = new File(FilenameUtils.concat(srcdir, srcjar));
 
-  		   cp += ' <classpathentry kind="lib" path="' + jars[i] + '"';
-  		   if (srcfile.exists()) {
-  		      cp += ' sourcepath="' + srcfile.getAbsolutePath() + '"';
-  		   }
-  		   cp += '/>\n';
-  		}
+             cp += ' <classpathentry kind="lib" path="' + jars[i] + '"';
+             if (srcfile.exists()) {
+                cp += ' sourcepath="' + srcfile.getAbsolutePath() + '"';
+             }
+             cp += '/>\n';
+          }
 
-  		cp += '</classpath>';
+          cp += '</classpath>';
 
-  		echo = project.createTask("echo");
-  	    echo.setMessage(cp);
-  		echo.setFile(new File(".classpath"));
-  		echo.setAppend(true);
-  	    echo.perform();
-  	]]> </script>
+          echo = project.createTask("echo");
+          echo.setMessage(cp);
+          echo.setFile(new File(".classpath"));
+          echo.setAppend(true);
+          echo.perform();
+      ]]> </script>
     <mkdir dir=".settings" />
   </target>
 
@@ -2084,8 +2084,8 @@
     <delete file=".project" />
     <delete file=".classpath" />
     <delete dir=".settings" />
-  	<delete dir=".externalToolBuilders" />
-  	<delete dir="build/eclipse-classes" />
+      <delete dir=".externalToolBuilders" />
+      <delete dir="build/eclipse-classes" />
   </target>
 
   <!-- ECJ 4.6.1 in standalone mode does not work with JPMS, so we skip this target for Java 11 -->
@@ -2098,18 +2098,18 @@
 
         <echo message="Running Eclipse Code Analysis.  Output logged to ${ecj.warnings.file}" />
 
-	<java
-	    jar="${build.dir.lib}/jars/ecj-${ecj.version}.jar"
+    <java
+        jar="${build.dir.lib}/jars/ecj-${ecj.version}.jar"
             fork="true"
-	    failonerror="true"
+        failonerror="true"
             maxmemory="512m">
             <arg value="-source"/>
-	    <arg value="${source.version}" />
-	    <arg value="-target"/>
-	    <arg value="${target.version}" />
-	    <arg value="-d" />
+        <arg value="${source.version}" />
+        <arg value="-target"/>
+        <arg value="${target.version}" />
+        <arg value="-d" />
             <arg value="none" />
-	    <arg value="-proc:none" />
+        <arg value="-proc:none" />
             <arg value="-log" />
             <arg value="${ecj.warnings.file}" />
             <arg value="-properties" />
