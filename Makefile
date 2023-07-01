@@ -1,5 +1,5 @@
 PORTNAME=	cassandra
-DISTVERSION=	4.0.8
+DISTVERSION=	4.1.2
 CATEGORIES=	databases java
 MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/${DISTVERSION}/:apache \
 		https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.5.0-4/:maven
@@ -23,7 +23,7 @@ FETCH_DEPENDS=	ant:devel/apache-ant
 RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java \
 		netty>0:java/netty
 
-USES=		cpe python:3.7+ shebangfix
+USES=		cpe python shebangfix
 USE_JAVA=	yes
 USE_ANT=	yes
 USE_RC_SUBR=	cassandra
