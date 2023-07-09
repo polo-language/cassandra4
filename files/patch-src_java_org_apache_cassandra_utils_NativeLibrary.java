@@ -4,11 +4,11 @@
          else if (osName.contains("windows"))
              return WINDOWS;
  
--        logger.warn("the current operating system, {}, is unsupported by cassandra", osName);
+-        logger.warn("the current operating system, {}, is unsupported by Cassandra", osName);
 +        if (osName.contains("bsd"))
-+            logger.warn("the current operating system, {}, is fantastic, though not officially supported by cassandra", osName);
++            logger.warn("the current operating system, {}, is fantastic, though not officially supported by Cassandra", osName);
 +        else
-+            logger.warn("the current operating system, {}, is unsupported by cassandra", osName);
++            logger.warn("the current operating system, {}, is unsupported by Cassandra", osName);
          if (osName.contains("aix"))
              return AIX;
          else
