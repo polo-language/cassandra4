@@ -86,8 +86,8 @@ PORTDOCS=		*
 
 MAVEN_CACHE_FILE=	apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz
 
-.if !exists(${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE})
 pre-fetch:
+.if !exists(${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE})
 	${MKDIR} ${DISTDIR}/${DIST_SUBDIR}
 	${MKDIR} ${WRKSRC}/.build
 	${MKDIR} ${WRKSRC}/src/java
