@@ -86,26 +86,6 @@ PORTDOCS=		*
 
 MAVEN_CACHE_FILE=	apache-${PORTNAME}-${DISTVERSION}-repo.tar.xz
 
-pre-fetch:
-.if !exists(${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE})
-	${MKDIR} ${DISTDIR}/${DIST_SUBDIR}
-	${MKDIR} ${WRKSRC}/.build
-	${MKDIR} ${WRKSRC}/src/java
-	${CP} ${FILESDIR}/maven/build.* ${WRKSRC}
-	${CP} ${FILESDIR}/maven/build-* ${WRKSRC}/.build
-	cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} resolver-dist-lib
-	cd ${REPO_DIR} && ${FIND} . -type f -name "*.repositories" -a -exec ${SED} -i '' -e '2s,.*,Mon Aug 08 20:40:04 CEST 2022,' {} +
-	cd ${WRKDIR} && ${MTREE_CMD} -cbnSp repository | ${MTREE_CMD} -C | ${SED} \
-		-e 's:time=[0-9.]*:time=0.000000000:' \
-		-e 's:\([gu]id\)=[0-9]*:\1=0:g' \
-		-e 's:flags=.*:flags=none:' \
-		-e 's:^\.:./repository:' \
-		> maven-offline-cache.mtree
-	cd ${WRKDIR} && ${TAR} cJf ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE} \
-		@maven-offline-cache.mtree
-	${SHA256} ${WRKDIR}/maven-offline-cache.mtree ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE}
-.endif
-
 do-build:
 	@${DO_NADA} # Do nothing: Prevent USE_ANT from running a default build target.
 
@@ -157,6 +137,26 @@ do-test:
 	@cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} -Dstagedlib=${STAGEDIR}${DATADIR}/lib test
 
 .include <bsd.port.pre.mk>
+
+pre-fetch:
+.if !exists(${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE})
+	${MKDIR} ${DISTDIR}/${DIST_SUBDIR}
+	${MKDIR} ${WRKSRC}/.build
+	${MKDIR} ${WRKSRC}/src/java
+	${CP} ${FILESDIR}/maven/build.* ${WRKSRC}
+	${CP} ${FILESDIR}/maven/build-* ${WRKSRC}/.build
+	cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} resolver-dist-lib
+	cd ${REPO_DIR} && ${FIND} . -type f -name "*.repositories" -a -exec ${SED} -i '' -e '2s,.*,Mon Aug 08 20:40:04 CEST 2022,' {} +
+	cd ${WRKDIR} && ${MTREE_CMD} -cbnSp repository | ${MTREE_CMD} -C | ${SED} \
+		-e 's:time=[0-9.]*:time=0.000000000:' \
+		-e 's:\([gu]id\)=[0-9]*:\1=0:g' \
+		-e 's:flags=.*:flags=none:' \
+		-e 's:^\.:./repository:' \
+		> maven-offline-cache.mtree
+	cd ${WRKDIR} && ${TAR} cJf ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE} \
+		@maven-offline-cache.mtree
+	${SHA256} ${WRKDIR}/maven-offline-cache.mtree ${DISTDIR}/${DIST_SUBDIR}/${MAVEN_CACHE_FILE}
+.endif
 
 .if ${JAVA_PORT_VERSION} == 11
 USEJDK11=	-Duse.jdk11=true -Drat.skip=true
