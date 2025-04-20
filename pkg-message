@@ -1,10 +1,9 @@
 [
 { type: install
   message: <<EOM
-If you are running Cassandra manually, as opposed to enabling the daemon, remember to create the data and log directories.
-These directories must be accessible to the cassandra user.
 The default data directory will be created by the database in '/var/db/cassandra', which is already initialized during installation as the 'cassandra' user's home directory.
-The default log directory is '/var/log/cassandra' and must be created with the correct permissions by you.
+The default log directory is '/var/log/cassandra' and must created by you to be accessible to the cassandra user.
+Start the cassandra service like so: `service cassandra [start|onestart]`.
 EOM
 }
 ]
