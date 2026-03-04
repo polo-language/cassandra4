@@ -42,15 +42,6 @@
  
    <macrodef name="create-javadoc">
      <attribute name="destdir"/>
-@@ -319,7 +338,7 @@
-         windowtitle="${ant.project.name} API" classpathref="cassandra.classpath"
-         bottom="Copyright &amp;copy; 2009- The Apache Software Foundation"
-         useexternalfile="yes" encoding="UTF-8" failonerror="false"
--        maxmemory="256m" additionalparam="${jdk11-javadoc-exports}">
-+        maxmemory="512m" additionalparam="${jdk11-javadoc-exports}">
-         <filesets/>
-       </javadoc>
-       <fail message="javadoc failed">
 @@ -460,6 +479,8 @@
      <target name="gen-doc" description="Generate documentation" depends="gen-asciidoc,generate-cql-html" unless="ant.gen-doc.skip">
          <exec executable="make" osfamily="unix" dir="${doc.dir}">
