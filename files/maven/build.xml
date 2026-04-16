@@ -34,7 +34,7 @@
     <property name="debuglevel" value="source,lines,vars"/>
 
     <!-- default version and SCM information -->
-    <property name="base.version" value="4.1.8"/>
+    <property name="base.version" value="4.1.11"/>
     <property name="scm.connection" value="scm:https://gitbox.apache.org/repos/asf/cassandra.git"/>
     <property name="scm.developerConnection" value="scm:https://gitbox.apache.org/repos/asf/cassandra.git"/>
     <property name="scm.url" value="https://gitbox.apache.org/repos/asf?p=cassandra.git"/>
@@ -170,7 +170,7 @@
     <property name="chronicle-wire.version" value="2.20.117" />
     <property name="chronicle-threads.version" value="2.20.111" />
 
-    <property name="dtest-api.version" value="0.0.16" />
+    <property name="dtest-api.version" value="0.0.18" />
 
     <condition property="maven-ant-tasks.jar.exists">
       <available file="${build.dir}/maven-ant-tasks-${maven-ant-tasks.version}.jar" />
@@ -359,7 +359,7 @@
         windowtitle="${ant.project.name} API" classpathref="cassandra.classpath"
         bottom="Copyright &amp;copy; 2009- The Apache Software Foundation"
         useexternalfile="yes" encoding="UTF-8" failonerror="false"
-        maxmemory="256m" additionalparam="${jdk11-javadoc-exports}">
+        maxmemory="1024m" additionalparam="${jdk11-javadoc-exports}">
         <filesets/>
       </javadoc>
       <fail message="javadoc failed">
@@ -562,8 +562,8 @@
         <scm connection="${scm.connection}" developerConnection="${scm.developerConnection}" url="${scm.url}"/>
         <dependencyManagement>
           <dependency groupId="org.xerial.snappy" artifactId="snappy-java" version="1.1.10.4"/>
-          <dependency groupId="org.lz4" artifactId="lz4-java" version="1.8.0"/>
-          <dependency groupId="com.github.luben" artifactId="zstd-jni" version="1.5.5-1"/>
+          <dependency groupId="at.yawk.lz4" artifactId="lz4-java" version="1.10.1"/>
+          <dependency groupId="com.github.luben" artifactId="zstd-jni" version="1.5.7-2"/>
           <dependency groupId="com.google.guava" artifactId="guava" version="27.0-jre">
             <exclusion groupId="com.google.code.findbugs" artifactId="jsr305" />
             <exclusion groupId="org.codehaus.mojo" artifactId="animal-sniffer-annotations" />
@@ -577,7 +577,7 @@
           <dependency groupId="commons-cli" artifactId="commons-cli" version="1.1"/>
           <dependency groupId="commons-codec" artifactId="commons-codec" version="1.9"/>
           <dependency groupId="commons-io" artifactId="commons-io" version="2.6"/>
-          <dependency groupId="org.apache.commons" artifactId="commons-lang3" version="3.11"/>
+          <dependency groupId="org.apache.commons" artifactId="commons-lang3" version="3.18.0"/>
           <dependency groupId="org.apache.commons" artifactId="commons-math3" version="3.2"/>
           <dependency groupId="org.antlr" artifactId="antlr" version="3.5.2" scope="provided">
             <exclusion groupId="org.antlr" artifactId="stringtemplate"/>
@@ -591,11 +591,12 @@
           <dependency groupId="org.slf4j" artifactId="jcl-over-slf4j" version="1.7.25" />
           <dependency groupId="ch.qos.logback" artifactId="logback-core" version="1.2.9"/>
           <dependency groupId="ch.qos.logback" artifactId="logback-classic" version="1.2.9"/>
-          <dependency groupId="com.fasterxml.jackson.core" artifactId="jackson-core" version="2.13.2"/>
-          <dependency groupId="com.fasterxml.jackson.core" artifactId="jackson-databind" version="2.13.2.2"/>
-          <dependency groupId="com.fasterxml.jackson.core" artifactId="jackson-annotations" version="2.13.2"/>
-          <dependency groupId="com.fasterxml.jackson.datatype" artifactId="jackson-datatype-jsr310" version="2.13.2"/>
+          <dependency groupId="com.fasterxml.jackson.core" artifactId="jackson-core" version="2.19.2"/>
+          <dependency groupId="com.fasterxml.jackson.core" artifactId="jackson-databind" version="2.19.2"/>
+          <dependency groupId="com.fasterxml.jackson.core" artifactId="jackson-annotations" version="2.19.2"/>
+          <dependency groupId="com.fasterxml.jackson.datatype" artifactId="jackson-datatype-jsr310" version="2.19.2"/>
           <dependency groupId="com.fasterxml.jackson.dataformat" artifactId="jackson-dataformat-yaml" version="2.13.2"  scope="test">
+            <!-- CASSANDRA-20848 2.19.x would bring snakeyaml 2.4 which is for now incompatible with rest of the codebase -->
             <exclusion groupId="org.yaml" artifactId="snakeyaml"/>
           </dependency>
           <dependency groupId="com.googlecode.json-simple" artifactId="json-simple" version="1.1"/>
@@ -688,7 +689,7 @@
           <dependency groupId="com.clearspring.analytics" artifactId="stream" version="2.5.2">
             <exclusion groupId="it.unimi.dsi" artifactId="fastutil" />
           </dependency>
-          <dependency groupId="com.datastax.cassandra" artifactId="cassandra-driver-core" version="3.11.0" classifier="shaded">
+          <dependency groupId="com.datastax.cassandra" artifactId="cassandra-driver-core" version="3.11.5" classifier="shaded">
             <exclusion groupId="io.netty" artifactId="netty-buffer"/>
             <exclusion groupId="io.netty" artifactId="netty-codec"/>
             <exclusion groupId="io.netty" artifactId="netty-handler"/>
@@ -843,7 +844,7 @@
                 relativePath="${final.name}-parent.pom"/>
         <scm connection="${scm.connection}" developerConnection="${scm.developerConnection}" url="${scm.url}"/>
         <dependency groupId="org.xerial.snappy" artifactId="snappy-java"/>
-        <dependency groupId="org.lz4" artifactId="lz4-java"/>
+        <dependency groupId="at.yawk.lz4" artifactId="lz4-java"/>
         <dependency groupId="com.google.guava" artifactId="guava"/>
         <dependency groupId="commons-cli" artifactId="commons-cli"/>
         <dependency groupId="commons-codec" artifactId="commons-codec"/>
@@ -1320,6 +1321,7 @@
       <copy todir="${dist.dir}/">
         <fileset dir="${basedir}">
           <include name="*.txt" />
+          <include name=".snyk" />
         </fileset>
       </copy>
       <copy todir="${dist.dir}/tools/bin">
@@ -2248,7 +2250,7 @@
     </path>
     <pathconvert property="eclipse-libs-list" refid="eclipse-project-libs-path" pathsep="${line.separator}">
         <mapper>
-            <regexpmapper from="^(.*)$$" to='&lt;classpathentry kind="lib" path="\1\" \/&gt;'/>
+            <regexpmapper from="^(.*)$$" to='&lt;classpathentry kind="lib" path="\1" /&gt;'/>
         </mapper>
     </pathconvert>
     <property name="eclipse-project-libs" refid="eclipse-project-libs-path"/>
