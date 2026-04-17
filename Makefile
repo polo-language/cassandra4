@@ -19,7 +19,8 @@ WWW=		https://cassandra.apache.org/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
-FETCH_DEPENDS=	ant:devel/apache-ant
+FETCH_DEPENDS=	${JAVA}:${JAVA_PORT} \
+		ant:devel/apache-ant
 RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java \
 		netty>0:java/netty
 
@@ -34,6 +35,7 @@ CONFLICTS=	cassandra[34]
 JAVA_VERSION=	11 17
 JAVA_VENDOR=	openjdk
 
+FETCH_ENV+=	JAVA_HOME=${JAVA_HOME}
 SUB_LIST=	JAVA_HOME=${JAVA_HOME}
 
 USERS=		cassandra
@@ -93,10 +95,10 @@ do-build:
 	@${DO_NADA} # Do nothing: Prevent USE_ANT from running a default build target.
 
 do-build-DOCS-on:
-	cd ${WRKSRC} && ${SETENV} CASSANDRA_LOG_DIR=${WRKDIR}/gen-doc-log ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} -Dpycmd=${PYTHON_CMD} -Dpyver=${PYTHON_VER} freebsd-stage-doc
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} CASSANDRA_LOG_DIR=${WRKDIR}/gen-doc-log ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} -Dpycmd=${PYTHON_CMD} -Dpyver=${PYTHON_VER} freebsd-stage-doc
 
 do-build-DOCS-off:
-	cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} freebsd-stage
+	cd ${WRKSRC} && ${MAKE_ENV} ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} freebsd-stage
 
 post-build:
 .for f in ${SCRIPT_FILES}
@@ -150,7 +152,7 @@ pre-fetch:
 	${CP} -r ${FILESDIR}/maven/test ${WRKSRC}/
 	${CP} ${FILESDIR}/maven/build.* ${WRKSRC}/
 	${CP} -r ${FILESDIR}/maven/.build ${WRKSRC}/
-	cd ${WRKSRC} && ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} resolver-dist-lib
+	cd ${WRKSRC} && ${FETCH_ENV} ${ANT} -Dmaven.repo.local=${REPO_DIR} -Dlocal.repository=${REPO_DIR} ${USEJDK11} resolver-dist-lib
 	cd ${REPO_DIR} && ${FIND} . -type f -name "*.repositories" -a -exec ${SED} -i '' -e '2s,.*,Mon Aug 08 20:40:04 CEST 2022,' {} +
 	cd ${WRKDIR} && ${MTREE_CMD} -cbnSp repository | ${MTREE_CMD} -C | ${SED} \
 		-e 's:time=[0-9.]*:time=0.000000000:' \
