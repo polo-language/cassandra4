@@ -45,7 +45,7 @@
       <artifactId>snappy-java</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.lz4</groupId>
+      <groupId>at.yawk.lz4</groupId>
       <artifactId>lz4-java</artifactId>
     </dependency>
     <dependency>
@@ -145,7 +145,7 @@
       <artifactId>logback-classic</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.datastax.cassandra</groupId>
+      <groupId>org.apache.cassandra</groupId>
       <artifactId>cassandra-driver-core</artifactId>
       <classifier>shaded</classifier>
     </dependency>

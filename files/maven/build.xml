@@ -33,7 +33,7 @@
     <property name="debuglevel" value="source,lines,vars"/>
 
     <!-- default version and SCM information -->
-    <property name="base.version" value="5.0.2"/>
+    <property name="base.version" value="5.0.8"/>
     <property name="scm.connection" value="scm:https://gitbox.apache.org/repos/asf/cassandra.git"/>
     <property name="scm.developerConnection" value="scm:https://gitbox.apache.org/repos/asf/cassandra.git"/>
     <property name="scm.url" value="https://gitbox.apache.org/repos/asf?p=cassandra.git"/>
@@ -367,7 +367,7 @@
         windowtitle="${ant.project.name} API" classpathref="cassandra.classpath"
         bottom="Copyright &amp;copy; 2009- The Apache Software Foundation"
         useexternalfile="yes" encoding="UTF-8" failonerror="false"
-        maxmemory="256m" additionalparam="${jdk11plus-javac-exports}">
+        maxmemory="1024m" additionalparam="${jdk11plus-javac-exports}">
         <filesets/>
       </javadoc>
       <fail message="javadoc failed">
@@ -468,13 +468,13 @@
     </target>
 
     <target name="gen-asciidoc" description="Generate dynamic asciidoc pages" depends="jar" unless="ant.gen-doc.skip">
-        <exec executable="make" osfamily="unix" dir="${doc.dir}">
+        <exec executable="make" osfamily="unix" dir="${doc.dir}" failonerror="true">
             <arg value="gen-asciidoc"/>
         </exec>
     </target>
 
     <target name="gen-doc" description="Generate documentation" depends="gen-asciidoc,generate-cql-html" unless="ant.gen-doc.skip">
-        <exec executable="make" osfamily="unix" dir="${doc.dir}">
+        <exec executable="make" osfamily="unix" dir="${doc.dir}" failonerror="true">
             <arg value="html"/>
         </exec>
     </target>
@@ -548,7 +548,7 @@
         <copy todir="${basedir}/conf" file="${build.classes.main}/META-INF/hotspot_compiler"/>
     </target>
 
-    <target name="check" depends="_main-jar,build-test" description="Verifies the source code and dependencies. This task is intended to run on pre-commit and locally. It should verify mostly modified files compared to the upstream base branch." unless="check.skip">
+    <target name="check" depends="_main-jar,build-test,gen-doc" description="Verifies the source code and dependencies. This task is intended to run on pre-commit and locally. It should verify mostly modified files compared to the upstream base branch." unless="check.skip">
         <antcall target="rat-check" inheritrefs="true"/>
         <antcall target="checkstyle" inheritrefs="true"/>
         <antcall target="checkstyle-test" inheritrefs="true"/>
@@ -891,6 +891,7 @@
       <copy todir="${dist.dir}/">
         <fileset dir="${basedir}">
           <include name="*.txt" />
+          <include name=".snyk" />
         </fileset>
       </copy>
       <copy todir="${dist.dir}/tools/bin">
@@ -909,7 +910,7 @@
     </target>
 
     <!-- creates release tarballs -->
-    <target name="artifacts" depends="_artifacts-init,check,gen-doc,sources-jar"
+    <target name="artifacts" depends="_artifacts-init,check,sources-jar"
             description="Create Cassandra tarball and maven artifacts">
       <tar compression="gzip" longfile="gnu"
         destfile="${build.dir}/${final.name}-bin.tar.gz">
@@ -979,6 +980,7 @@
           <include name="tools/bin/*"/>
           <exclude name="tools/bin/*.in.sh" />
           <include name=".build/**/*.sh"/>
+          <include name="doc/scripts/process-native-protocol-specs-in-docker.sh"/>
         </tarfileset>
       </tar>
 
@@ -1249,6 +1251,7 @@
         <jvmarg value="-Dcassandra.ring_delay_ms=1000"/>
         <jvmarg value="-Dcassandra.tolerate_sstable_size=true"/>
         <jvmarg value="-Dcassandra.skip_sync=true" />
+        <!-- total memory must fit within the pod constraints, see comments in .jenkins/Jenkinsfile and dind's container resourceRequestMemory in .jenkins/k8s/jenkins-deployment.yaml -->
         <jvmarg value="-Xmx${maxMemory}"/>
       </testmacrohelper>
     </sequential>
@@ -1762,6 +1765,7 @@
       <jvmarg value="-Dcassandra.ring_delay_ms=10000"/>
       <jvmarg value="-Dcassandra.tolerate_sstable_size=true"/>
       <jvmarg value="-Dcassandra.skip_sync=true" />
+      <!-- total memory must fit within the pod constraints, see comments in .jenkins/Jenkinsfile and dind's container resourceRequestMemory in .jenkins/k8s/jenkins-deployment.yaml -->
       <jvmarg value="-Xmx8G"/>
     </testmacro>
   </target>
@@ -1795,6 +1799,7 @@
       <jvmarg line="-XX:CICompilerCount=1"/>
       <jvmarg line="-XX:Tier4CompileThreshold=1000"/>
       <jvmarg line="-XX:ReservedCodeCacheSize=256M"/>
+      <!-- total memory must fit within the pod constraints, see comments in .jenkins/Jenkinsfile and dind's container resourceRequestMemory in .jenkins/k8s/jenkins-deployment.yaml -->
       <jvmarg line="-Xmx8G"/>
     </testmacro>
   </target>
@@ -1809,6 +1814,7 @@
       <jvmarg value="-Dcassandra.ring_delay_ms=10000"/>
       <jvmarg value="-Dcassandra.tolerate_sstable_size=true"/>
       <jvmarg value="-Dcassandra.skip_sync=true" />
+      <!-- total memory must fit within the pod constraints, see comments in .jenkins/Jenkinsfile and dind's container resourceRequestMemory in .jenkins/k8s/jenkins-deployment.yaml -->
       <jvmarg value="-Xmx8G"/>
     </testmacro>
   </target>
@@ -1825,6 +1831,7 @@
       <jvmarg value="-Dcassandra.ring_delay_ms=10000"/>
       <jvmarg value="-Dcassandra.tolerate_sstable_size=true"/>
       <jvmarg value="-Dcassandra.skip_sync=true" />
+      <!-- total memory must fit within the pod constraints, see comments in .jenkins/Jenkinsfile and dind's container resourceRequestMemory in .jenkins/k8s/jenkins-deployment.yaml -->
       <jvmarg value="-Xmx8G"/>
     </testmacro>
   </target>
@@ -1865,14 +1872,6 @@
               </tokenfilter>
           </filterchain>
       </concat>
-  </target>
-
-  <target name="microbench" depends="jar">
-    <antcall target="-microbench" inheritrefs="true"/>
-  </target>
-
-  <target name="microbench-with-profiler" depends="jar">
-    <antcall target="-microbench-with-profiler" inheritrefs="true"/>
   </target>
 
   <!-- run arbitrary mains in tests, for example to run the long running memory tests with lots of memory pressure
@@ -1982,7 +1981,7 @@
     </path>
     <pathconvert property="eclipse-libs-list" refid="eclipse-project-libs-path" pathsep="${line.separator}">
         <mapper>
-            <regexpmapper from="^(.*)$$" to='&lt;classpathentry kind="lib" path="\1\" \/&gt;'/>
+            <regexpmapper from="^(.*)$$" to='&lt;classpathentry kind="lib" path="\1" /&gt;'/>
         </mapper>
     </pathconvert>
     <property name="eclipse-project-libs" refid="eclipse-project-libs-path"/>
