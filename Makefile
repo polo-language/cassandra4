@@ -13,6 +13,9 @@ WWW=		https://cassandra.apache.org/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
+DEPRECATED=		Cassandra 3.x is no longer maintained
+EXPIRATION_DATE=	2026-07-31
+
 RUN_DEPENDS=	snappyjava>=0:archivers/snappy-java
 TEST_DEPENDS=	${PYTHON_PKGNAMEPREFIX}virtualenv>=0:devel/py-virtualenv@${PY_FLAVOR} \
 		bash>0:shells/bash \
